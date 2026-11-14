@@ -1,4 +1,4 @@
-# Site do MECT — decisões combinadas com o dono (2026-11-14)
+# Site MECT — decisões combinadas com o dono (2026-11-14)
 
 ## O que é
 Site institucional do **MECT**, a empresa de software (MECT TECNOLOGIA LTDA, CNPJ 66.662.050/0001-42) que desenvolve o
