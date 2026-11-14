@@ -16,12 +16,14 @@ const url = `http://127.0.0.1:${srv.address().port}/`;
 const falhas = [];
 const ok = (cond, msg) => { if (!cond) falhas.push(msg); };
 const b = await chromium.launch({ channel: 'chrome' });
-for (const [nome, largura] of [['desktop', 1280], ['celular', 390]]) {
+const PAGINAS = ['/', '/servicos/', '/produtos/', '/sobre/', '/contato/'];
+for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of PAGINAS) {
+  const nome = `${tela} ${caminho}`;
   const p = await b.newPage({ viewport: { width: largura, height: 850 } });
   p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
   p.on('response', (r) => r.status() >= 400 && r.url().startsWith(url) && falhas.push(`${nome}: ${r.status()} ${r.url()}`));
   // mede também durante as animações de entrada (a faixa do hero já criou rolagem só no primeiro meio segundo)
-  await p.goto(url, { waitUntil: 'commit' });
+  await p.goto(url + caminho.slice(1), { waitUntil: 'commit' });
   await p.waitForFunction(() => document.body && getComputedStyle(document.body).margin === '0px'); // CSS aplicado (antes disso o navegador nem desenha)
   for (let t = 0; t < 12; t++) {
     const largo = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
@@ -32,23 +34,24 @@ for (const [nome, largura] of [['desktop', 1280], ['celular', 390]]) {
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
   const ancoras = await p.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)));
   ok(!ancoras.length, `${nome}: âncoras sem destino: ${ancoras}`);
-  for (const sel of ['.hero__bts .bt--azul', '.hero__bts .bt--linha']) {
+  ok((await p.getAttribute('#nav [aria-current="page"]', 'href')) === caminho, `${nome}: item do menu não marcado`);
+  if (caminho === '/') for (const sel of ['.hero__bts .bt--azul', '.hero__bts .bt--linha']) {
     const recebe = await p.$eval(sel, (el) => { const r = el.getBoundingClientRect(); return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); });
     ok(recebe, `${nome}: ${sel} não recebe o clique`);
   }
-  // a seção "Nossos produtos" aparece depois de rolar (revelação)
-  await p.locator('#produtos .produto').first().scrollIntoViewIfNeeded(); await p.waitForTimeout(900);
-  ok(await p.$eval('#produtos .produto', (el) => getComputedStyle(el).opacity === '1'), `${nome}: produto não ficou visível ao rolar`);
-  if (nome === 'celular') {
+  // o último bloco revelável aparece depois de rolar até ele
+  const ultimo = p.locator('.revela').last(); await ultimo.scrollIntoViewIfNeeded(); await p.waitForTimeout(900);
+  ok(await ultimo.evaluate((el) => getComputedStyle(el).opacity === '1'), `${nome}: conteúdo não aparece ao rolar`);
+  if (tela === 'celular' && caminho === '/') {
     await p.evaluate(() => scrollTo(0, 0));
     ok(!(await p.isVisible('#nav')), 'celular: menu já aberto');
     await p.click('.menu-bt'); ok(await p.isVisible('#nav'), 'celular: menu não abre');
     ok((await p.getAttribute('.menu-bt', 'aria-expanded')) === 'true', 'celular: aria-expanded não muda');
     await p.keyboard.press('Escape'); ok(!(await p.isVisible('#nav')), 'celular: Esc não fecha o menu');
-    await p.click('.menu-bt'); await p.click('#nav a[href="#contato"]'); ok(!(await p.isVisible('#nav')), 'celular: clicar num link não fecha o menu');
+    await p.click('.menu-bt'); await p.click('#nav a[href="/contato/"]'); await p.waitForURL('**/contato/'); ok(!(await p.isVisible('#nav')), 'celular: clicar num link não fecha o menu');
   }
   await p.close();
 }
 await b.close(); srv.close();
-console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : 'tudo certo (desktop e celular)');
+console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas, desktop e celular)`);
 process.exit(falhas.length ? 1 : 0);

@@ -14,16 +14,6 @@ bt.addEventListener('click', () => {
 nav.addEventListener('click', (e) => e.target.closest('a') && fecha());
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('aberto')) { fecha(); bt.focus(); } });
 
-// item ativo do menu conforme a seção na tela
-const links = [...nav.querySelectorAll('a')];
-const secoes = links.map((a) => document.querySelector(a.getAttribute('href')));
-const obsSecao = new IntersectionObserver((es) => es.forEach((e) => {
-  if (!e.isIntersecting) return;
-  links.forEach((a) => a.removeAttribute('aria-current'));
-  links[secoes.indexOf(e.target)].setAttribute('aria-current', 'page');
-}), { rootMargin: '-45% 0px -50% 0px' });
-secoes.forEach((s) => obsSecao.observe(s));
-
 // revelação ao rolar
 const obs = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visto'); obs.unobserve(e.target); } }), { threshold: .12 });
 document.querySelectorAll('.revela').forEach((el) => obs.observe(el));

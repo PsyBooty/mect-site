@@ -31,8 +31,8 @@ rodapé. O mockup é referência de design, não de conteúdo.
 - Clientes (IOG, IHG) **não são citados por nome** na home; seção "Clientes" só com autorização deles.
 
 ## Como é feito
-- HTML/CSS/JS puros, uma página por enquanto (como o QualiGuide). Sem framework; sem build enquanto for só a home.
-  Build mínimo (modelo do IOG) só quando houver várias páginas internas.
+- HTML/CSS/JS puros. Desde as subpáginas (2026-11-14), um gerador mínimo: `node scripts/montar.mjs` junta `partes/layout.html` com cada `paginas/*.html` e grava as páginas prontas na raiz (index.html, servicos/, produtos/, sobre/, contato/), que é o que o GitHub Pages publica. O menu mora só no `MENU` do gerador. Sempre rode o gerador antes de commitar.
+  Teste: `node scripts/testar-site.mjs` e `node scripts/conferir-links.mjs`.
 - Fonte Satoshi servida pelo próprio site (mesmos arquivos do QualiGuide), sem Google Fonts.
 - Contato sem formulário que guarda dado (sem servidor, sem questão de LGPD): WhatsApp e e-mail.
 - Hospedagem: **GitHub Pages** (projeto nosso, simples). Prévia primeiro; domínio (mect.app ou mect.com.br) decidido
