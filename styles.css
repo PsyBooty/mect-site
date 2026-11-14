@@ -97,7 +97,7 @@ p { margin: 0; }
 .checks li::before { content: ""; width: 14px; height: 14px; flex: none; background: var(--azul); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12l5 5L20 6' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12l5 5L20 6' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
 
 .produto { background: linear-gradient(120deg, #fff 35%, #e3edff); border: 1px solid var(--borda); border-radius: 22px; box-shadow: var(--sombra); padding: 30px 0 30px 30px; display: grid; grid-template-columns: 1fr 1.05fr; gap: 8px; align-items: center; overflow: hidden; }
-.produto__txt { display: flex; flex-direction: column; align-items: flex-start; height: 100%; }
+.produto__txt { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; height: 100%; }
 .produto__txt .bt { margin-top: auto; }
 .produto__nome { font-weight: 900; font-size: 2rem; display: inline-block; }
 .produto__nome::after { content: ""; display: block; width: 60%; height: 5px; margin-top: 4px; border-radius: 0 0 50% 50%; background: var(--laranja); }
@@ -121,7 +121,8 @@ p { margin: 0; }
 
 .cta { max-width: calc(var(--larg) - 40px); margin: 56px auto; padding: 40px 48px; border-radius: 26px; background: radial-gradient(circle at 85% 20%, #3d86ff, transparent 45%), linear-gradient(110deg, var(--azul-esc), var(--azul)); color: #dfe9ff; display: grid; grid-template-columns: 1.75fr 1fr auto; gap: 32px; align-items: center; }
 .cta h2 { color: #fff; font-weight: 900; font-size: clamp(1.6rem, 2.8vw, 2.2rem); padding-right: 32px; border-right: 1px solid rgba(255, 255, 255, .25); }
-.cta h2 em { font-style: normal; color: #b9dcff; white-space: nowrap; }
+.cta h2 em { font-style: normal; color: #b9dcff; }
+@media (min-width: 1001px) { .cta h2 em { white-space: nowrap; } }
 
 /* rodapé */
 .rodape { border-top: 1px solid var(--borda); background: #fff; }
@@ -186,7 +187,9 @@ p { margin: 0; }
   .servico__topo { align-items: flex-start; }
 }
 @media (max-width: 480px) {
-  .rodape__in { grid-template-columns: 1fr; }
+  .bt { white-space: normal; text-align: center; }
+  .rodape__in { grid-template-columns: 1fr 1fr; }
+  .rodape__marca, .rodape__col:last-child { grid-column: 1 / -1; }
   .rodape__marca { flex-direction: column; align-items: flex-start; gap: 12px; }
   .rodape__marca p { border: 0; padding: 0; }
   .hero__bts .bt { flex: 1 1 100%; justify-content: center; }
@@ -211,6 +214,8 @@ p { margin: 0; }
 .bloco--servico { display: flex; gap: 24px; align-items: flex-start; scroll-margin-top: 100px; }
 .bloco--servico h2 { font-size: 1.6rem; }
 .checks--col { flex-direction: column; }
+.bloco--servico > div > p { max-width: 62ch; }
+@media (min-width: 761px) { .bloco--servico .checks--col { display: grid; grid-template-columns: repeat(2, max-content); gap: 8px 40px; } }
 
 .produto--grande { scroll-margin-top: 100px; }
 .produto--grande .produto__txt > p:not(.produto__desc) { margin-top: 14px; }
@@ -222,7 +227,8 @@ p { margin: 0; }
 .passos h3 { font-weight: 900; font-size: 1.15rem; }
 .passos p { margin-top: 6px; }
 
-.sobre { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; align-items: start; }
+.sobre { display: grid; gap: 22px; }
+.sobre .numeros { margin: 0; }
 .numeros--col { margin: 0; grid-template-columns: 1fr; gap: 18px; }
 .numeros--col li { justify-content: flex-start; }
 .numeros--col li + li { border-left: 0; border-top: 1px solid #c9d8f5; padding-top: 18px; }
@@ -235,6 +241,9 @@ p { margin: 0; }
 .contato h2 { margin-top: 10px; }
 .contato p { font-size: 1.1rem; color: var(--tinta); }
 .contato__acao { margin-top: 8px; color: var(--azul); font-weight: 700; }
+.contato__info { margin-top: 8px; color: var(--texto); }
+div.contato:hover { transform: none; }
+.nota a { color: var(--azul); font-weight: 700; }
 .nota { text-align: center; color: var(--texto); }
 
 .faq { display: grid; gap: 12px; }
@@ -247,7 +256,6 @@ p { margin: 0; }
 
 @media (max-width: 1000px) {
   .passos, .dados { grid-template-columns: 1fr 1fr; }
-  .sobre { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .passos, .dados { grid-template-columns: 1fr; }
