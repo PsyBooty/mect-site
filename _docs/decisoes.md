@@ -4,17 +4,18 @@
 Site institucional do **MECT**, a empresa de software (MECT TECNOLOGIA LTDA, CNPJ 66.662.050/0001-42) que desenvolve o
 QualiGuide e os demais sistemas. Não é site pessoal.
 
-**Regra de texto:** "MECT" vem do nome do dono. Sempre "o MECT" (masculino) ou construção neutra. Nunca "a MECT"
-(o mockup usa "a MECT": corrigido no site).
+**Regra de texto:** "MECT" vem do nome do dono. Escrever só **"MECT", sem artigo** ("Conheça MECT", "Por que escolher
+MECT?"). Nem "a MECT" nem "o MECT" (decisão do dono, 2026-11-14, trocando a regra anterior de "o MECT"). Onde a frase
+pedir artigo, reescrever de forma neutra.
 
 ## Para quem e para quê
 Visitante vem **conhecer a empresa, os serviços que ela presta e os produtos à venda** (palavras do dono: "Conhecer a
-empresa serviços e produtos a venda"). Ação principal: falar com o MECT (WhatsApp / e-mail) ou ir ao site do produto.
+empresa serviços e produtos a venda"). Ação principal: falar com MECT (WhatsApp / e-mail) ou ir ao site do produto.
 
 ## Referência de design
 Mockup do dono: `_docs/mockup-home.png` (original "Landing Page MECT Tecnologia_ Soluções Digitais.png"; `_docs/` não é publicado).
 Ordem da home: cabeçalho (Início, Serviços, Produtos, Sobre, Contato + "Fale com a gente") → hero → Nossos serviços →
-Nossos produtos → Por que escolher o MECT → faixa de números → faixa "Sua próxima solução começa com uma conversa" →
+Nossos produtos → Por que escolher MECT → faixa de números → faixa "Sua próxima solução começa com uma conversa" →
 rodapé. O mockup é referência de design, não de conteúdo.
 
 ## Conteúdo (fontes)
