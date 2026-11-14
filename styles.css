@@ -57,7 +57,7 @@ p { margin: 0; }
 .menu-bt { display: none; }
 
 /* hero */
-.hero { position: relative; }
+.hero { position: relative; overflow-x: clip; } /* a entrada animada da foto não pode criar rolagem lateral */
 .hero__in { max-width: var(--larg); margin: 0 auto; padding: 52px 20px; min-height: 400px; display: flex; align-items: center; }
 .hero__txt { width: 50%; position: relative; z-index: 1; }
 .hero h1 { font-weight: 900; font-size: clamp(2.2rem, 3.9vw, 3.05rem); }

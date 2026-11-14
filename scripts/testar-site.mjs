@@ -20,7 +20,15 @@ for (const [nome, largura] of [['desktop', 1280], ['celular', 390]]) {
   const p = await b.newPage({ viewport: { width: largura, height: 850 } });
   p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
   p.on('response', (r) => r.status() >= 400 && r.url().startsWith(url) && falhas.push(`${nome}: ${r.status()} ${r.url()}`));
-  await p.goto(url, { waitUntil: 'networkidle' });
+  // mede também durante as animações de entrada (a faixa do hero já criou rolagem só no primeiro meio segundo)
+  await p.goto(url, { waitUntil: 'commit' });
+  await p.waitForFunction(() => document.body && getComputedStyle(document.body).margin === '0px'); // CSS aplicado (antes disso o navegador nem desenha)
+  for (let t = 0; t < 12; t++) {
+    const largo = await p.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+    if (largo) { falhas.push(`${nome}: rolagem lateral durante o carregamento (${t * 100} ms)`); break; }
+    await p.waitForTimeout(100);
+  }
+  await p.waitForLoadState('networkidle');
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
   const ancoras = await p.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)));
   ok(!ancoras.length, `${nome}: âncoras sem destino: ${ancoras}`);
