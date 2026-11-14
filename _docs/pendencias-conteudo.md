@@ -1,6 +1,6 @@
 # Pendências de conteúdo
 
-- [ ] **Logo oficial do MECT** (PNG/SVG). A primeira versão usa uma logo provisória em SVG desenhada a partir do mockup.
+- [x] **Logo**: gerada pelo ChatGPT a partir da logo do mockup, aprovada pelo dono (2026-11-14). Original em `artes/logo-mect.png`.
 - [ ] **Fotos/imagens reais**: o hero e os cartões de produto usam recortes provisórios do mockup. Trocar por print real
       do QualiGuide/WatchDesk ou imagem gerada antes de mostrar para fora.
 - [ ] Redes sociais (LinkedIn, Instagram, YouTube do mockup): endereços reais? Sem endereço, os ícones ficam fora.

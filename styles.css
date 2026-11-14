@@ -39,11 +39,10 @@ p { margin: 0; }
 .bt--laranja { background: var(--laranja); color: #fff; box-shadow: 0 8px 18px rgba(255, 106, 19, .28); }
 .bt--branco { background: #fff; color: var(--tinta); }
 
-/* logo provisória (pendente a oficial) */
-.logo { display: inline-grid; text-decoration: none; line-height: 1; justify-items: start; }
-.logo__m { font-weight: 900; font-size: 2.1rem; letter-spacing: -.03em; color: var(--azul); }
-.logo__risco { width: 3.2rem; height: .45rem; margin: -.1rem 0 0 -.15rem; fill: none; stroke: var(--azul); stroke-width: 3; stroke-linecap: round; }
-.logo__t { font-weight: 700; font-size: .95rem; color: var(--azul-esc); margin: -.55rem 0 0 2.6rem; }
+/* logo (gerada pelo GPT a partir do mockup: artes/logo-mect.png) */
+.logo { display: inline-block; line-height: 0; }
+.logo img { height: 52px; width: auto; }
+.rodape .logo img { height: 46px; }
 
 /* cabeçalho */
 .topo { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .86); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid transparent; transition: border-color .2s; }

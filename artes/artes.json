@@ -1,0 +1,5 @@
+{ "artes": [
+  { "id": "logo-mect", "formato": "paisagem",
+    "anexos": ["artes/ref-logo-mockup.png"],
+    "prompt": "Recreate the attached logo as a clean, crisp, professional company logo, faithful to the attachment. Wordmark \"MECT\" in a heavy geometric sans-serif, all caps, tight letter spacing, royal blue (#1560E8). Below the left part of the word, a thin wave/swoosh stroke in the same blue that starts thin at the left, dips and ends where the word \"Tecnologia\" begins. \"Tecnologia\" in a bold geometric sans-serif, smaller, darker blue (#0C3FA8), aligned under the right half of MECT, exactly like the attachment. Flat design: no gradient, no shadow, no 3D, no outline, no icon, no other text, no mockup, no watermark. Logo centered, large, on a pure flat white background (#FFFFFF), generous margins. Spell exactly: MECT and Tecnologia." }
+] }
