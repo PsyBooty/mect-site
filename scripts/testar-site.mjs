@@ -1,0 +1,46 @@
+// Testa a home num Chrome de verdade: erros de JS, arquivos que não carregam, âncoras, rolagem lateral, menu do celular
+// e se os botões do hero recebem o clique. Uso: node scripts/testar-site.mjs   (sai com código 1 se algo falhar)
+import { createRequire } from 'node:module'; import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { join, extname } from 'node:path'; import { homedir } from 'node:os'; import { createServer } from 'node:http';
+const require = createRequire(import.meta.url);
+const npx = join(homedir(), 'AppData/Local/npm-cache/_npx');
+const { chromium } = require(readdirSync(npx).map((d) => join(npx, d, 'node_modules/playwright-core')).find(existsSync));
+const tipos = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.woff2': 'font/woff2' };
+const srv = createServer((req, res) => {
+  let f = join('.', decodeURIComponent(req.url.split('?')[0]));
+  if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
+  if (!existsSync(f)) { res.writeHead(404); return res.end(); }
+  res.writeHead(200, { 'content-type': tipos[extname(f)] ?? 'application/octet-stream' }); res.end(readFileSync(f));
+}).listen(0);
+const url = `http://127.0.0.1:${srv.address().port}/`;
+const falhas = [];
+const ok = (cond, msg) => { if (!cond) falhas.push(msg); };
+const b = await chromium.launch({ channel: 'chrome' });
+for (const [nome, largura] of [['desktop', 1280], ['celular', 390]]) {
+  const p = await b.newPage({ viewport: { width: largura, height: 850 } });
+  p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
+  p.on('response', (r) => r.status() >= 400 && r.url().startsWith(url) && falhas.push(`${nome}: ${r.status()} ${r.url()}`));
+  await p.goto(url, { waitUntil: 'networkidle' });
+  ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
+  const ancoras = await p.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)));
+  ok(!ancoras.length, `${nome}: âncoras sem destino: ${ancoras}`);
+  for (const sel of ['.hero__bts .bt--azul', '.hero__bts .bt--linha']) {
+    const recebe = await p.$eval(sel, (el) => { const r = el.getBoundingClientRect(); return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); });
+    ok(recebe, `${nome}: ${sel} não recebe o clique`);
+  }
+  // a seção "Nossos produtos" aparece depois de rolar (revelação)
+  await p.locator('#produtos .produto').first().scrollIntoViewIfNeeded(); await p.waitForTimeout(900);
+  ok(await p.$eval('#produtos .produto', (el) => getComputedStyle(el).opacity === '1'), `${nome}: produto não ficou visível ao rolar`);
+  if (nome === 'celular') {
+    await p.evaluate(() => scrollTo(0, 0));
+    ok(!(await p.isVisible('#nav')), 'celular: menu já aberto');
+    await p.click('.menu-bt'); ok(await p.isVisible('#nav'), 'celular: menu não abre');
+    ok((await p.getAttribute('.menu-bt', 'aria-expanded')) === 'true', 'celular: aria-expanded não muda');
+    await p.keyboard.press('Escape'); ok(!(await p.isVisible('#nav')), 'celular: Esc não fecha o menu');
+    await p.click('.menu-bt'); await p.click('#nav a[href="#contato"]'); ok(!(await p.isVisible('#nav')), 'celular: clicar num link não fecha o menu');
+  }
+  await p.close();
+}
+await b.close(); srv.close();
+console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : 'tudo certo (desktop e celular)');
+process.exit(falhas.length ? 1 : 0);
