@@ -1,8 +1,8 @@
 # Pendências de conteúdo
 
 - [x] **Logo**: gerada pelo ChatGPT a partir da logo do mockup, aprovada pelo dono (2026-11-14). Original em `artes/logo-mect.png`.
-- [ ] **Fotos/imagens reais**: o hero e os cartões de produto usam recortes provisórios do mockup. Trocar por print real
-      do QualiGuide/WatchDesk ou imagem gerada antes de mostrar para fora.
+- [x] **Imagens**: hero e notebooks dos produtos gerados pelo ChatGPT (2026-11-14), telas ilustrativas. Trocar por print real
+      do QualiGuide/WatchDesk se o dono quiser.
 - [ ] Redes sociais (LinkedIn, Instagram, YouTube do mockup): endereços reais? Sem endereço, os ícones ficam fora.
 - [x] Páginas internas Serviços, Produtos, Sobre e Contato (2026-11-14).
 - [ ] Página própria do WatchDesk (hoje: "pedir demonstração" pelo WhatsApp).
