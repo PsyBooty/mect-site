@@ -1,1 +1,1 @@
-exclude: [artes, scripts, paginas, partes]
+exclude: [artes, scripts, paginas, partes, dados]
