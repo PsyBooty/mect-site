@@ -327,7 +327,6 @@ main > .secao:last-child { padding-bottom: 64px; }
 .link-seta:hover span { transform: translateX(4px); }
 .prod__tela { margin-top: 22px; flex: 1; display: flex; flex-direction: column; }
 .prod__tela .tela { flex: 1; }
-.prod__tela .wd__grafico svg { height: 12.5em; }
 .prod__tela .tela { font-size: clamp(9px, 1.04vw, 12.5px); box-shadow: 0 16px 34px rgba(11, 30, 80, .16); transition: transform .4s; }
 .prod:hover .prod__tela .tela { transform: translateY(-4px); }
 
