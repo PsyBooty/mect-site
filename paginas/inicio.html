@@ -1,107 +1,151 @@
 <!--
 url: /
-titulo: MECT Tecnologia — software, sites e consultoria em TI
-descricao: MECT desenvolve softwares, sites e soluções em TI que organizam processos e integram equipes. Criador do QualiGuide e do WatchDesk. Goiânia, atendimento em todo o Brasil.
+titulo: MECT Tecnologia — sites, sistemas sob medida e consultoria em TI
+descricao: MECT desenvolve sites, sistemas sob medida e soluções em TI. Criador do QualiGuide, do WatchDesk e do Presença Online. Goiânia, atendimento em todo o Brasil.
 -->
-  <section class="hero" id="inicio">
-    <div class="hero__in"><div class="hero__txt">
-      <h1>Soluções em tecnologia para modernizar a sua operação <em>e dar resultado.</em></h1>
-      <p>Desenvolvimento, consultoria e softwares que organizam processos, integram equipes e geram mais eficiência para o seu negócio.</p>
-      <div class="hero__bts">
-        <a class="bt bt--azul" href="/sobre/">Conheça MECT <span aria-hidden="true">→</span></a>
-        <a class="bt bt--linha" href="/produtos/"><svg class="ic ic--cheio" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg> Veja nossas soluções</a>
+  <section class="hero2" id="inicio">
+    <div class="hero2__in">
+      <div class="hero2__txt">
+        <h1>Tecnologia para modernizar <em>sua operação</em></h1>
+        <p>Sites, sistemas sob medida e consultoria em TI.</p>
+        <div class="hero__bts">
+          <a class="bt bt--azul" href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20vim%20pelo%20site%20MECT." target="_blank" rel="noopener">Fale com MECT</a>
+          <a class="bt bt--linha" href="#produtos">Conheça os produtos</a>
+        </div>
       </div>
-    </div></div>
-    <div class="hero__foto">
-      <img src="/assets/img/hero.webp" srcset="/assets/img/hero-800.webp 800w, /assets/img/hero.webp 1400w" sizes="(max-width: 860px) 100vw, 50vw" width="1400" height="933" alt="Notebook numa mesa de escritório mostrando o painel do QualiGuide, ao lado de uma caneca com a logo MECT" fetchpriority="high">
+
+      <!-- telas flutuantes em 3D (esquema do login-cinematic do QualiGuide): o palco inclina, cada camada fica numa profundidade e flutua -->
+      <div class="palco" aria-hidden="true">
+        <div class="palco__giro">
+          <div class="camada camada--fundo"><div class="flutua">
+            <div class="tela tela--wd">
+              <div class="wd__lado">
+                <strong>WatchDesk</strong>
+                <span class="wd__item wd__item--ativo">Início</span><span class="wd__item">Inventário</span><span class="wd__item">Monitoramento</span><span class="wd__item">Dispositivos</span>
+              </div>
+              <div class="wd__grafico">
+                <svg viewBox="0 0 200 70" preserveAspectRatio="none"><path class="linha" d="M4 58 L36 44 L64 50 L96 30 L128 36 L160 22 L196 12" /><path class="linha__area" d="M4 58 L36 44 L64 50 L96 30 L128 36 L160 22 L196 12 L196 70 L4 70Z" /></svg>
+              </div>
+              <div class="wd__status"><span><i class="ponto ponto--on"></i>Online</span><span><i class="ponto ponto--at"></i>Atenção</span><span><i class="ponto ponto--off"></i>Offline</span></div>
+            </div>
+          </div></div>
+
+          <div class="camada camada--frente"><div class="flutua flutua--2">
+            <div class="tela tela--qg">
+              <div class="qg__topo"><img src="/assets/img/logo-qualiguide.webp" width="300" height="69" alt=""><span class="qg__aba qg__aba--ativa">Visão geral</span><span class="qg__aba">Documentos</span><span class="qg__aba">Indicadores</span><span class="qg__aba">Ocorrências</span></div>
+              <div class="qg__titulo"><div><strong>Painel da Qualidade</strong><small>Visão geral das atividades</small></div><span class="qg__filtro">Este mês</span></div>
+              <div class="qg__kpis">
+                <div class="kpi kpi--azul"><small>Documentos vigentes</small><b data-conta="128">128</b></div>
+                <div class="kpi kpi--verde"><small>Indicadores em dia</small><b data-conta="92" data-sufixo="%">92%</b></div>
+                <div class="kpi kpi--laranja"><small>Planos em andamento</small><b data-conta="14">14</b></div>
+              </div>
+              <div class="qg__baixo">
+                <div class="qg__caixa"><small>Indicadores por mês</small><div class="barras"><i style="--h:30%"></i><i style="--h:42%"></i><i style="--h:50%"></i><i style="--h:62%"></i><i style="--h:74%"></i><i style="--h:92%"></i></div></div>
+                <div class="qg__caixa"><small>Planos de ação</small><span class="plano">Adequar POP de esterilização <em class="chip chip--and">Em andamento</em></span><span class="plano">Revisar fluxo de atendimento <em class="chip chip--ok">Concluído</em></span></div>
+              </div>
+            </div>
+          </div></div>
+
+          <div class="camada camada--pilula1"><div class="flutua flutua--3"><span class="pilula"><svg class="ic" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>POP atualizado</span></div></div>
+          <div class="camada camada--pilula2"><div class="flutua"><span class="pilula"><i class="ponto ponto--on"></i>12 estações online</span></div></div>
+        </div>
+      </div>
     </div>
   </section>
+
+  <ul class="destaques">
+    <li><strong data-conta="10" data-sufixo="+">10+</strong> anos de atuação em soluções para saúde</li>
+    <li><strong data-conta="600" data-sufixo="+">600+</strong> usuários atendidos</li>
+  </ul>
 
   <section class="secao" id="servicos">
-    <div class="secao__cab revela">
-      <h2>Nossos serviços</h2>
-      <p>Soluções de tecnologia para as necessidades do seu negócio.</p>
-    </div>
+    <div class="secao__cab revela"><h2>Serviços</h2></div>
     <div class="grade grade--3">
-      <article class="servico revela" style="--i:0">
-        <div class="servico__topo">
-          <span class="tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 8h18M8 21h8M12 17v4"/></svg></span>
-          <div><h3>Web design</h3><p>Sites modernos, rápidos e focados em resultados.</p></div>
+      <a class="serv revela" style="--i:0" href="/servicos/#web-design">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 8h18M8 21h8M12 17v4"/></svg>
+        <h3>Web design</h3><p>Sites rápidos e fáceis de navegar.</p>
+      </a>
+      <a class="serv revela" style="--i:1" href="/servicos/#consultoria">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>
+        <h3>Consultoria em TI</h3><p>Estratégia, infraestrutura e integração.</p>
+      </a>
+      <a class="serv revela" style="--i:2" href="/servicos/#sob-medida">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg>
+        <h3>Desenvolvimento sob medida</h3><p>Sistemas alinhados aos seus processos.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="faixa-azul" id="produtos">
+    <div class="secao">
+      <div class="secao__cab revela"><h2>Produtos</h2></div>
+      <div class="grade grade--2">
+        <article class="prod revela" style="--i:0">
+          <h3 class="prod__nome prod__nome--laranja">QualiGuide</h3>
+          <p class="prod__desc">Gestão da qualidade para instituições de saúde.</p>
+          <ul class="lista-ok"><li>Documentos e POPs</li><li>Indicadores e planos de ação</li><li>Ocorrências e riscos</li><li>Educação e treinamentos</li></ul>
+          <a class="link-seta" href="https://qualiguide.com.br" target="_blank" rel="noopener">Conheça o QualiGuide <span aria-hidden="true">→</span></a>
+          <div class="prod__tela" aria-hidden="true">
+            <div class="tela tela--qg">
+              <div class="qg__topo"><img src="/assets/img/logo-qualiguide.webp" width="300" height="69" alt="" loading="lazy"><span class="qg__aba qg__aba--ativa">Visão geral</span><span class="qg__aba">Documentos</span><span class="qg__aba">Indicadores</span><span class="qg__aba">Ocorrências</span></div>
+              <div class="qg__titulo"><div><strong>Painel da Qualidade</strong><small>Visão geral das atividades</small></div><span class="qg__filtro">Este mês</span></div>
+              <div class="qg__kpis">
+                <div class="kpi kpi--azul"><small>Documentos vigentes</small><b>128</b></div>
+                <div class="kpi kpi--verde"><small>Indicadores em dia</small><b>92%</b></div>
+                <div class="kpi kpi--laranja"><small>Planos em andamento</small><b>14</b></div>
+              </div>
+              <div class="qg__baixo">
+                <div class="qg__caixa"><small>Indicadores por mês</small><div class="barras"><i style="--h:30%"></i><i style="--h:42%"></i><i style="--h:50%"></i><i style="--h:62%"></i><i style="--h:74%"></i><i style="--h:92%"></i></div></div>
+                <div class="qg__caixa"><small>Planos de ação</small><span class="plano">Adequar POP de esterilização <em class="chip chip--and">Em andamento</em></span><span class="plano">Revisar fluxo de atendimento <em class="chip chip--ok">Concluído</em></span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="prod revela" style="--i:1">
+          <h3 class="prod__nome">WatchDesk</h3>
+          <p class="prod__desc">Monitoramento de estações, acesso remoto e produtividade.</p>
+          <ul class="lista-ok"><li>Inventário de equipamentos</li><li>Acesso remoto seguro</li><li>Uso e produtividade</li><li>Alertas e relatórios</li></ul>
+          <a class="link-seta" href="/produtos/#watchdesk">Conheça o WatchDesk <span aria-hidden="true">→</span></a>
+          <div class="prod__tela" aria-hidden="true">
+            <div class="tela tela--wd">
+              <div class="wd__lado">
+                <strong>WatchDesk</strong>
+                <span class="wd__item wd__item--ativo">Início</span><span class="wd__item">Inventário</span><span class="wd__item">Monitoramento</span><span class="wd__item">Dispositivos</span><span class="wd__item">Relatórios</span>
+              </div>
+              <div class="wd__grafico">
+                <svg viewBox="0 0 200 70" preserveAspectRatio="none"><path class="linha" d="M4 58 L36 44 L64 50 L96 30 L128 36 L160 22 L196 12" /><path class="linha__area" d="M4 58 L36 44 L64 50 L96 30 L128 36 L160 22 L196 12 L196 70 L4 70Z" /></svg>
+              </div>
+              <div class="wd__status"><span><i class="ponto ponto--on"></i>Online</span><span><i class="ponto ponto--at"></i>Atenção</span><span><i class="ponto ponto--off"></i>Offline</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="presenca revela" id="presenca-online">
+        <div class="presenca__txt">
+          <h3 class="prod__nome">Presença Online</h3>
+          <p>Sua empresa mais fácil de encontrar online.</p>
+          <a class="link-seta" href="/produtos/#presenca-online">Conheça a solução <span aria-hidden="true">→</span></a>
         </div>
-        <ul class="checks"><li>Sites institucionais</li><li>Páginas de produto</li><li>Hotsites e campanhas</li></ul>
-      </article>
-      <article class="servico revela" style="--i:1">
-        <div class="servico__topo">
-          <span class="tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg></span>
-          <div><h3>Consultoria em TI</h3><p>Estratégia, infraestrutura e tecnologia para mais eficiência.</p></div>
-        </div>
-        <ul class="checks"><li>Planejamento de TI</li><li>Infraestrutura</li><li>Integração de sistemas</li></ul>
-      </article>
-      <article class="servico revela" style="--i:2">
-        <div class="servico__topo">
-          <span class="tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span>
-          <div><h3>Desenvolvimento sob medida</h3><p>Sistemas criados a partir do fluxo real da sua empresa.</p></div>
-        </div>
-        <ul class="checks"><li>Aplicações web</li><li>Automação de processos</li><li>Painéis e relatórios</li></ul>
+        <ul class="presenca__itens">
+          <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg><div><strong>Site profissional</strong><span>Hotsite ou site completo para apresentar o seu negócio.</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg><div><strong>Posts para Instagram</strong><span>Criação de conteúdo para a sua marca.</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><div><strong>SEO e presença no Google</strong><span>Otimização para buscas e Google Maps.</span></div></li>
+        </ul>
       </article>
     </div>
   </section>
 
-  <section class="secao" id="produtos">
-    <div class="secao__cab revela">
-      <h2>Nossos produtos</h2>
-      <p>Softwares próprios que levam mais controle, qualidade e produtividade para o seu dia a dia.</p>
-    </div>
-    <div class="grade grade--2">
-      <article class="produto revela" style="--i:0">
-        <div class="produto__txt">
-          <h3 class="produto__nome">QualiGuide</h3>
-          <p class="produto__desc">Gestão da qualidade para instituições de saúde.</p>
-          <ul class="checks checks--laranja"><li>Documentos e POPs</li><li>Indicadores e planos de ação</li><li>Ocorrências e riscos</li><li>Educação e treinamentos</li></ul>
-          <a class="bt bt--laranja" href="https://qualiguide.com.br" target="_blank" rel="noopener">Conheça o QualiGuide <span aria-hidden="true">→</span></a>
-        </div>
-        <img class="produto__img" src="/assets/img/produto-qualiguide.webp" width="1000" height="667" alt="Notebook com o painel do QualiGuide" loading="lazy">
-      </article>
-      <article class="produto revela" style="--i:1">
-        <div class="produto__txt">
-          <h3 class="produto__nome produto__nome--wd">WatchDesk</h3>
-          <p class="produto__desc">Monitoramento de estações, acesso remoto e produtividade.</p>
-          <ul class="checks checks--azul"><li>Inventário de equipamentos</li><li>Acesso remoto seguro</li><li>Uso e produtividade</li><li>Alertas e relatórios</li></ul>
-          <a class="bt bt--laranja" href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20quero%20conhecer%20o%20WatchDesk." target="_blank" rel="noopener">Conheça o WatchDesk <span aria-hidden="true">→</span></a>
-        </div>
-        <img class="produto__img" src="/assets/img/produto-watchdesk.webp" width="1000" height="667" alt="Notebook com o painel do WatchDesk" loading="lazy">
-      </article>
-    </div>
-  </section>
+  <ul class="diferenciais revela">
+    <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>Soluções sob medida</li>
+    <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 14.5a4.5 4.5 0 0 1 6 4.5"/></svg>Atendimento próximo</li>
+    <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>Sistemas integrados</li>
+  </ul>
 
-  <section class="secao" id="sobre">
-    <div class="secao__cab revela"><h2>Por que escolher MECT?</h2></div>
-    <div class="motivos">
-      <div class="motivo revela" style="--i:0">
-        <span class="tile tile--claro"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1Z"/><path d="m12 15-3-3a22 22 0 0 1 2-4 13 13 0 0 1 11-6c0 2.7-.8 7.5-6 11a22 22 0 0 1-4 2Z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></svg></span>
-        <div><h3>Desenvolvimento sob medida</h3><p>Soluções alinhadas aos seus processos e objetivos.</p></div>
-      </div>
-      <div class="motivo revela" style="--i:1">
-        <span class="tile tile--claro"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 14.5a4.5 4.5 0 0 1 6 4.5"/></svg></span>
-        <div><h3>Atendimento próximo</h3><p>Uma equipe parceira, do planejamento à entrega.</p></div>
-      </div>
-      <div class="motivo revela" style="--i:2">
-        <span class="tile tile--claro"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h4v3a2 2 0 1 0 4 0V5h3v6h-2a2 2 0 1 0 0 4h2v6h-6v-2a2 2 0 1 0-4 0v2H5v-6H3a2 2 0 1 1 0-4h2V5h5Z"/></svg></span>
-        <div><h3>Sistemas que se conectam</h3><p>Integração entre pessoas, processos e tecnologia.</p></div>
-      </div>
+  <section class="cta-escura" id="contato">
+    <div class="cta-escura__in">
+      <h2>Vamos conversar sobre seu projeto?</h2>
+      <a class="bt bt--azul" href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20quero%20falar%20sobre%20um%20projeto." target="_blank" rel="noopener">Fale com MECT</a>
     </div>
-    <ul class="numeros revela">
-      <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><p><strong>10+ anos</strong> de atuação em soluções para saúde</p></li>
-      <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M15 14.5a4.5 4.5 0 0 1 6 4.5"/></svg><p><strong>600+ usuários</strong> atendidos pelos nossos sistemas</p></li>
-      <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg><p><strong>2 produtos</strong> próprios: QualiGuide e WatchDesk</p></li>
-    </ul>
-  </section>
-
-  <section class="cta revela" id="contato">
-    <h2>Sua próxima solução começa com <em>uma conversa.</em></h2>
-    <p>Conte o seu desafio e descubra como a tecnologia pode impulsionar o seu negócio.</p>
-    <a class="bt bt--branco" href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20vim%20pelo%20site%20MECT." target="_blank" rel="noopener">
-      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-5A8 8 0 1 1 21 12Z"/></svg>
-      Fale com a gente <span aria-hidden="true">→</span>
-    </a>
   </section>

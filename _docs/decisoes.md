@@ -47,3 +47,17 @@ rodapé. O mockup é referência de design, não de conteúdo.
 
 ## Fica para depois
 Ver `_docs/pendencias-conteudo.md`.
+
+## Home v2 (2026-11-15)
+Junção do site atual com o mockup novo do dono (`artes/MECT Tecnologia com espaçamento equilibrado.png`), a pedido dele
+("queria uma junção dos dois").
+- Do mockup novo: hero "Tecnologia para modernizar sua operação" + "Sites, sistemas sob medida e consultoria em TI.";
+  números logo abaixo do hero (10+ anos, 600+ usuários); serviços enxutos; produtos numa faixa azul com a tela de cada
+  sistema; bloco Presença Online; diferenciais em uma linha; faixa final escura.
+- Do site atual: rodapé completo, item Contato no menu, subpáginas, traço curvo sob o destaque do título.
+- Hero com **telas flutuantes em 3D** (escolha do dono), no esquema do design salvo `mect-2.0/src/saved-designs/login-cinematic.tsx`
+  + `floatY` do `globals.css` do QualiGuide: perspectiva 1600px, giro rotateX(8deg) rotateY(-14deg), camadas em
+  profundidades diferentes, flutuação defasada. Telas em HTML/CSS (não imagem). Vida: barras crescem, linha se desenha,
+  números sobem, inclinação segue o mouse. Tudo desligado com `prefers-reduced-motion`.
+- **Presença Online** é produto novo do MECT: posts para Instagram, SEO e hotsite (o mesmo serviço feito para uma cliente
+  em outra sessão; o nome dela não vai ao site sem autorização). Botão leva à seção em /produtos/ e dali ao WhatsApp.
