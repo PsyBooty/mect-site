@@ -14,6 +14,6 @@
 - [x] robots.txt, sitemap.xml gerado pelo scripts/montar.mjs, 404.html com noindex.
 - [x] canonical, títulos e descrições por página, schema.org Organization, noindex removido na virada.
 - [x] HTTPS obrigatório, www e mect.app → 301 → mect.com.br, e-mail Zoho intocado.
-- [ ] Página de links da bio (/links), etapa 6b da skill: ainda não feita.
+- [x] Página de links da bio: https://mect.com.br/links (dados/links.json → scripts/gerar-links.mjs no montar.mjs). Redes sociais entram quando houver os endereços.
 - [ ] Lighthouse (celular e desktop) desta versão: ainda não rodado.
 - [ ] Redes sociais do MECT (endereços) para o rodapé e para o /links.

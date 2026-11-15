@@ -52,6 +52,16 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   }
   await p.close();
 }
+// páginas fora do layout (sem menu): só o básico
+for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of ['/links/', '/404.html']) {
+  const nome = `${tela} ${caminho}`;
+  const p = await b.newPage({ viewport: { width: largura, height: 850 } });
+  p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
+  p.on('response', (r) => r.status() >= 400 && r.url().startsWith(url) && falhas.push(`${nome}: ${r.status()} ${r.url()}`));
+  await p.goto(url + caminho.slice(1), { waitUntil: 'networkidle' });
+  ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
+  await p.close();
+}
 await b.close(); srv.close();
-console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas, desktop e celular)`);
+console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas + /links e 404, desktop e celular)`);
 process.exit(falhas.length ? 1 : 0);

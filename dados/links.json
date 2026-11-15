@@ -1,0 +1,37 @@
+{
+  "nome": "MECT Tecnologia",
+  "titulo": "MECT Tecnologia — links",
+  "descricao": "Fale com MECT, conheça o site e os produtos QualiGuide, WatchDesk e Presença Online.",
+  "subtitulo": "Sites, sistemas e consultoria em TI",
+  "registro": "Goiânia – GO · atendimento em todo o Brasil",
+  "bio": "Tecnologia para modernizar sua operação.",
+  "foto": "/assets/img/icone-180.png",
+  "favicon": "/favicon.ico",
+  "ogImagem": "https://mect.com.br/assets/img/og.jpg",
+  "site": "https://mect.com.br/",
+  "utm": "utm_source=instagram&utm_medium=bio",
+  "fontesCss": "/assets/fontes/satoshi.css",
+  "tema": {
+    "fundo": "#F4F8FF", "texto": "#0B1033", "suave": "#3A4160", "primaria": "#1560E8", "sobrePrimaria": "#FFFFFF",
+    "destaque": "#1560E8", "cartao": "#FFFFFF", "borda": "#E0E8F7", "raio": "14px",
+    "fonteTitulo": "Satoshi, system-ui, sans-serif", "fonteTexto": "Satoshi, system-ui, sans-serif", "caixaAlta": false
+  },
+  "mensagem": "Olá! Vim pelo Instagram e quero falar com MECT.",
+  "blocos": [
+    { "tipo": "botoes", "titulo": "Fale com a gente", "itens": [
+      { "rotulo": "Falar no WhatsApp", "detalhe": "Segunda a sexta, das 8h30 às 18h", "whatsapp": "5562994050744", "destaque": true },
+      { "rotulo": "E-mail", "detalhe": "contato@mect.com.br", "email": "contato@mect.com.br" },
+      { "rotulo": "Ligar", "detalhe": "(62) 99405-0744", "telefone": "5562994050744" }
+    ] },
+    { "tipo": "botoes", "titulo": "Conheça", "itens": [
+      { "rotulo": "Site MECT", "detalhe": "Sites, sistemas sob medida e consultoria em TI", "url": "https://mect.com.br/", "icone": "site" },
+      { "rotulo": "QualiGuide", "detalhe": "Gestão da qualidade para instituições de saúde", "url": "https://qualiguide.com.br/", "icone": "site" },
+      { "rotulo": "WatchDesk", "detalhe": "Monitoramento de estações e acesso remoto", "url": "https://mect.com.br/produtos/#watchdesk", "icone": "site" },
+      { "rotulo": "Presença Online", "detalhe": "Site, posts para Instagram e SEO", "url": "https://mect.com.br/produtos/#presenca-online", "icone": "site" }
+    ] }
+  ],
+  "redes": [],
+  "rodape": "MECT TECNOLOGIA LTDA · CNPJ 66.662.050/0001-42",
+  "robots": "noindex, follow",
+  "ga4": false
+}

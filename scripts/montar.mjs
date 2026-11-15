@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 // o menu mora só aqui
 const MENU = [['/', 'Início'], ['/servicos/', 'Serviços'], ['/produtos/', 'Produtos'], ['/sobre/', 'Sobre'], ['/contato/', 'Contato']];
@@ -34,3 +35,6 @@ for (const arq of readdirSync('paginas').filter((f) => f.endsWith('.html'))) {
 const hoje = new Date().toISOString().slice(0, 10);
 writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.sort().map((u) => `  <url><loc>https://mect.com.br${u}</loc><lastmod>${hoje}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 console.log('sitemap.xml', urls.length, 'páginas');
+
+// página de links da bio (/links): dados/links.json → links/index.html, fora do sitemap (é noindex)
+execFileSync(process.execPath, ['scripts/gerar-links.mjs', 'dados/links.json', 'links/index.html'], { stdio: 'inherit' });
