@@ -1,4 +1,4 @@
-// Gera favicon (ico + png), ícone da tela inicial do celular (180) e a imagem de prévia de compartilhamento (1200x630).
+// Gera favicon (ico + png) e o ícone da tela inicial do celular (180).
 // Uso: node artes/gerar-icones.mjs   (na raiz do site). Ícone: a logo quadrada do dono (artes/Logo MECT em azul cobalto-2.png).
 import { createRequire } from 'node:module'; import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path'; import { homedir } from 'node:os';
@@ -24,14 +24,6 @@ const cab = Buffer.alloc(22); cab.writeUInt16LE(0, 0); cab.writeUInt16LE(1, 2); 
 cab.writeUInt8(32, 6); cab.writeUInt8(32, 7); cab.writeUInt16LE(1, 10); cab.writeUInt16LE(32, 12); cab.writeUInt32LE(p32.length, 14); cab.writeUInt32LE(22, 18);
 writeFileSync('favicon.ico', Buffer.concat([cab, p32]));
 
-// prévia de compartilhamento: foto do hero recortada em 1200x630 com a logo
-const hero = 'data:image/png;base64,' + readFileSync('artes/hero.png').toString('base64');
-const logo = 'data:image/png;base64,' + readFileSync('artes/logo-mect-transparente.png').toString('base64');
-const p2 = await b.newPage({ viewport: { width: 1200, height: 630 } });
-await p2.setContent(`<style>html,body{margin:0}#c{width:1200px;height:630px;position:relative;background:url(${hero}) center 40%/cover}
-#c::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.96) 0 30%,rgba(255,255,255,0) 58%)}
-#c img{position:absolute;left:56px;top:56px;width:300px}</style><div id="c"><img src="${logo}"></div>`);
-await p2.waitForTimeout(300);
-writeFileSync('assets/img/og.jpg', await p2.screenshot({ type: 'jpeg', quality: 82 }));
+// a prévia de compartilhamento (og.jpg) sai do artes/gerar-og.mjs
 await b.close();
-console.log('favicon.ico', 22 + p32.length, 'bytes; favicon.png 48; icone-180.png; og.jpg 1200x630');
+console.log('favicon.ico', 22 + p32.length, 'bytes; favicon.png 48; icone-180.png');
