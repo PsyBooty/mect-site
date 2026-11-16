@@ -1,5 +1,3 @@
-document.documentElement.classList.add('js');
-
 const topo = document.querySelector('.topo');
 addEventListener('scroll', () => topo.classList.toggle('rolou', scrollY > 8), { passive: true });
 

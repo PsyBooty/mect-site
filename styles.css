@@ -17,12 +17,17 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-body { margin: 0; font-family: Satoshi, system-ui, sans-serif; font-weight: 500; color: var(--texto); background: #fbfcff; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+/* web moderna (~/.claude/skills/site-institucional/references/web-moderna.md, 2026-11-16): rolagem suave só com
+   movimento permitido; transição entre páginas com o topo parado */
+html { scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } @view-transition { navigation: auto; } }
+body > header { view-transition-name: topo; }
+body { margin: 0; font-family: Satoshi, system-ui, sans-serif; font-weight: 500; color: var(--texto); background: #fbfcff; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
-h1, h2, h3 { color: var(--tinta); margin: 0; line-height: 1.12; letter-spacing: -.025em; }
+h1, h2, h3 { color: var(--tinta); margin: 0; line-height: 1.12; letter-spacing: -.025em; text-wrap: balance; }
 p { margin: 0; }
+p, li { text-wrap: pretty; }
 .ic { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 .ic--cheio { fill: currentColor; stroke: none; }
 .pular { position: absolute; left: -999px; top: 8px; background: var(--azul); color: #fff; padding: 8px 14px; border-radius: 8px; z-index: 99; }
@@ -101,10 +106,10 @@ p { margin: 0; }
 .cta { max-width: calc(var(--larg) - 40px); margin: 56px auto; padding: 40px 48px; border-radius: 26px; background: radial-gradient(circle at 85% 20%, #3d86ff, transparent 45%), linear-gradient(110deg, var(--azul-esc), var(--azul)); color: #dfe9ff; display: grid; grid-template-columns: 1.75fr 1fr auto; gap: 32px; align-items: center; }
 .cta h2 { color: #fff; font-weight: 900; font-size: clamp(1.6rem, 2.8vw, 2.2rem); padding-right: 32px; border-right: 1px solid rgba(255, 255, 255, .25); }
 .cta h2 em { font-style: normal; color: #b9dcff; }
-@media (min-width: 1001px) { .cta h2 em { white-space: nowrap; } }
+@media (min-width: 62.5625em) { .cta h2 em { white-space: nowrap; } }
 /* texto maior do painel de acessibilidade (html.a11y-texto): a faixa de chamada empilha como no tablet e o rodapé vira
    3 colunas; senão o botão (nowrap) e o e-mail passam da tela */
-@media (min-width: 1001px) {
+@media (min-width: 62.5625em) {
   html.a11y-texto .cta { grid-template-columns: 1fr; gap: 16px; }
   html.a11y-texto .cta h2 { border: 0; padding: 0; }
   html.a11y-texto .cta h2 em { white-space: normal; }
@@ -132,27 +137,28 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
 @keyframes sobe { from { opacity: 0; transform: translateY(16px); } }
 
 /* tablet e celular */
-@media (max-width: 1000px) {
-  .grade--3 { grid-template-columns: 1fr; }
+@media (max-width: 62.5em) {
+  .grade--3 { grid-template-columns: minmax(0, 1fr); }
   .grade--3 { gap: 16px; }
-  .cta { grid-template-columns: 1fr; gap: 16px; margin: 40px 20px; padding: 32px 26px; }
+  .cta { grid-template-columns: minmax(0, 1fr); gap: 16px; margin: 40px 20px; padding: 32px 26px; }
   .cta h2 { border: 0; padding: 0; }
   .cta .bt { justify-self: start; }
-  .rodape__in { grid-template-columns: 1fr 1fr; }
+  .rodape__in { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rodape__marca { grid-column: 1 / -1; }
 }
-@media (max-width: 860px) {
+@media (max-width: 53.75em) {
   .topo__in { gap: 12px; justify-content: space-between; }
   .topo__in > .logo { border: 0; padding: 0; }
   .menu-bt { display: inline-flex; order: 3; align-items: center; gap: 8px; font: inherit; font-weight: 700; color: var(--tinta); background: var(--azul-cl); border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; }
-  .menu-bt::before { content: "☰"; }
-  .menu-bt[aria-expanded="true"]::before { content: "✕"; }
+  /* "/ ''": o leitor de tela não lê o ícone (o botão já diz Menu/Fechar); a 1ª declaração é para navegador antigo */
+  .menu-bt::before { content: "☰"; content: "☰" / ""; }
+  .menu-bt[aria-expanded="true"]::before { content: "✕"; content: "✕" / ""; }
   .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; flex-direction: column; gap: 0; padding: 8px 20px 18px; border-bottom: 1px solid var(--borda); box-shadow: var(--sombra); }
   .nav.aberto { display: flex; }
   .nav a { padding: 12px 0; border-bottom: 1px solid var(--borda); }
   .nav a::after { display: none; }
   .bt--topo { display: none; }
-  .grade--2 { grid-template-columns: 1fr; }
+  .grade--2 { grid-template-columns: minmax(0, 1fr); }
   .produto { grid-template-columns: 1fr; padding: 24px; }
   .produto__img { order: -1; border-radius: 14px; }
   .checks { flex-direction: column; }
@@ -160,15 +166,15 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
   .numeros li { justify-content: flex-start; }
   .numeros li + li { border-left: 0; border-top: 1px solid #c9d8f5; padding-top: 16px; }
 }
-@media (max-width: 480px) {
-  .bt { white-space: normal; text-align: center; }
-  .rodape__in { grid-template-columns: 1fr 1fr; }
+@media (max-width: 30em) {
+  .bt { white-space: normal; text-align: center; overflow-wrap: anywhere; }
+  .rodape__in { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rodape__marca, .rodape__col:last-child { grid-column: 1 / -1; }
   .rodape__marca { flex-direction: column; align-items: flex-start; gap: 12px; }
   .rodape__marca p { border: 0; padding: 0; }
   .hero__bts .bt { flex: 1 1 100%; justify-content: center; }
 }
-.rodape__legal span { white-space: nowrap; }
+.rodape__legal span { display: inline-block; } /* inteiro na linha como o nowrap, mas quebra se não couber (letra a 200%) */
 
 /* ---------- páginas internas ---------- */
 .pagina-topo { background: radial-gradient(circle at 90% 0%, #dce9ff, transparent 55%), var(--azul-cl); border-bottom: 1px solid var(--borda); }
@@ -176,10 +182,10 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
 .pagina-topo h1 { font-weight: 900; font-size: clamp(2.1rem, 4vw, 3rem); margin-top: 14px; }
 .pagina-topo h1::after { content: ""; display: block; width: 60px; height: 6px; margin-top: 10px; border-radius: 6px; background: var(--azul); }
 .pagina-topo p { margin-top: 16px; font-size: 1.15rem; max-width: 40em; }
-.trilha { display: flex; gap: 8px; font-size: .92rem; color: var(--texto); }
+.trilha { display: flex; flex-wrap: wrap; gap: 8px; font-size: .92rem; color: var(--texto); }
 .trilha a { color: var(--azul); text-decoration: none; }
 .trilha a:hover { text-decoration: underline; }
-.secao--interna { padding-top: 40px; display: grid; gap: 22px; }
+.secao--interna { padding-top: 40px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
 
 .bloco { background: #fff; border: 1px solid var(--borda); border-radius: var(--raio); box-shadow: var(--sombra); padding: 26px; }
 .bloco h2, .bloco h3 { font-weight: 900; font-size: 1.3rem; }
@@ -190,7 +196,7 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
 .checks--col { flex-direction: column; }
 .bloco--servico > div > p { max-width: 62ch; }
 /* minmax(0, …) + min-width:0: com max-content puro, item longo (ou texto maior do painel) estourava a tela entre 761 e 1000 px */
-@media (min-width: 761px) { .bloco--servico .checks--col { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: 8px 40px; } }
+@media (min-width: 47.5625em) { .bloco--servico .checks--col { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: 8px 40px; } }
 .bloco--servico > div { min-width: 0; }
 
 .produto--grande { scroll-margin-top: 100px; }
@@ -215,7 +221,7 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
 .contato { text-decoration: none; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; transition: transform .25s; }
 .contato:hover { transform: translateY(-3px); }
 .contato h2 { margin-top: 10px; }
-.contato p { font-size: 1.1rem; color: var(--tinta); }
+.contato p { font-size: 1.1rem; color: var(--tinta); overflow-wrap: anywhere; } /* e-mail inteiro não passa da tela com letra a 200% */
 .contato__acao { margin-top: 8px; color: var(--azul); font-weight: 700; }
 .contato__info { margin-top: 8px; color: var(--texto); }
 div.contato:hover { transform: none; }
@@ -226,16 +232,16 @@ div.contato:hover { transform: none; }
 .faq details { background: #fff; border: 1px solid var(--borda); border-radius: 14px; padding: 0 22px; }
 .faq summary { cursor: pointer; list-style: none; font-weight: 700; color: var(--tinta); padding: 18px 0; display: flex; justify-content: space-between; gap: 16px; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; color: var(--azul); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+.faq summary::after { content: "+"; content: "+" / ""; color: var(--azul); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { padding-bottom: 18px; }
 
-@media (max-width: 1000px) {
+@media (max-width: 62.5em) {
   .passos, .dados { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
   .passos, .dados { grid-template-columns: 1fr; }
-  .bloco--servico { flex-direction: column; gap: 16px; }
+  .bloco--servico { flex-direction: column; gap: 16px; align-items: stretch; }
 }
 main > .secao:last-child { padding-bottom: 64px; }
 
@@ -258,7 +264,8 @@ main > .secao:last-child { padding-bottom: 64px; }
 .pilula { display: inline-flex; align-items: center; gap: .55em; background: #fff; border-radius: 999px; padding: .6em 1.05em; font-size: 13px; font-weight: 700; color: var(--tinta); box-shadow: 0 16px 34px rgba(11, 16, 51, .18); white-space: nowrap; }
 .pilula .ic { color: var(--azul); }
 
-/* telas (tudo em em: o tamanho da fonte do contêiner escala a tela inteira) */
+/* telas (tudo em em: o tamanho da fonte do contêiner escala a tela inteira). São desenho, não texto para ler: a letra
+   base delas e das pílulas fica em px de propósito, senão com letra grande a tela cresce e cobre o que vem abaixo */
 .tela { font-size: 14px; border-radius: 1.1em; box-shadow: 0 30px 60px rgba(11, 30, 80, .22), 0 2px 6px rgba(11, 30, 80, .08); line-height: 1.25; text-align: left; }
 .tela small { display: block; font-size: .7em; color: #5d6683; }
 .tela--qg { background: #fff; color: var(--tinta); padding: 1.1em 1.3em 1.2em; }
@@ -388,20 +395,20 @@ main > .secao:last-child { padding-bottom: 64px; }
 @keyframes desenha { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
 @keyframes pulsa { 0% { box-shadow: 0 0 0 0 rgba(62, 224, 127, .6); } 70%, 100% { box-shadow: 0 0 0 .55em rgba(62, 224, 127, 0); } }
 
-@media (max-width: 1000px) {
-  .hero2__in { grid-template-columns: 1fr; gap: 8px; }
+@media (max-width: 62.5em) {
+  .hero2__in { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .palco { height: 380px; max-width: 620px; width: 100%; margin: 0 auto; }
   .presenca { grid-template-columns: 1fr; gap: 16px; }
   .presenca__itens { padding: 0; border: 0; }
 }
-@media (max-width: 860px) {
+@media (max-width: 53.75em) {
   .prod__tela .tela { font-size: clamp(8.5px, 2.5vw, 11px); }
   .diferenciais { grid-template-columns: 1fr; gap: 14px; padding: 30px 20px; }
   .diferenciais li { justify-content: flex-start; }
   .diferenciais li + li { border: 0; }
   .cta-escura__in { flex-direction: column; align-items: flex-start; }
 }
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
   .hero2__in { padding-top: 28px; }
   .palco { height: 250px; perspective: 1100px; margin-top: 20px; }
   .camada--pilula1, .camada--pilula2 { display: none; }
@@ -416,7 +423,7 @@ main > .secao:last-child { padding-bottom: 64px; }
   .destaques li + li { border: 0; }
 }
 .presenca__itens--pagina { padding: 0 30px; }
-@media (max-width: 1000px) { .presenca__itens--pagina { padding: 0; border: 0; } }
+@media (max-width: 62.5em) { .presenca__itens--pagina { padding: 0; border: 0; } }
 
 /* ---------- cardápio digital (/cardapio/): os modelos funcionando dentro de uma moldura de celular ---------- */
 /* flex e não grid: a última fileira (5 = 3 + 2) fica centralizada em vez de deixar um buraco à direita */
@@ -432,8 +439,8 @@ main > .secao:last-child { padding-bottom: 64px; }
 .modelo__bts .bt { padding: .6em 1.2em; }
 .cardapio-nota { margin-top: 28px; }
 .presenca__itens a { color: var(--azul); font-weight: 700; }
-@media (max-width: 1000px) { .modelos { --col: 2; } }
-@media (max-width: 640px) {
+@media (max-width: 62.5em) { .modelos { --col: 2; } }
+@media (max-width: 40em) {
   .modelos { --col: 1; max-width: 400px; margin: 0 auto; }
   .modelo__tela iframe { height: 540px; }
 }
