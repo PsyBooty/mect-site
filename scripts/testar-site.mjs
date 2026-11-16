@@ -74,6 +74,16 @@ for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
   await p.close();
 }
+// VLibras (vem da rede, do governo): o botão de Libras aparece e o "alto contraste" do painel não o apaga
+{
+  const p = await b.newPage({ viewport: { width: 1280, height: 850 } });
+  await p.addInitScript(() => localStorage.setItem('acessibilidade', '{"contraste":true,"imagens":true}'));
+  await p.goto(url, { waitUntil: 'networkidle' });
+  // v7: o botão mora num shadow DOM aberto em #vlibras-access-wrapper (o Playwright atravessa)
+  const visivel = await p.locator('#vlibras-button img').waitFor({ state: 'visible', timeout: 15000 }).then(() => true, () => false);
+  ok(visivel && (await p.locator('#vlibras-button img').evaluate((i) => getComputedStyle(i).opacity)) === '1', 'VLibras: botão de Libras não aparece (ou o painel o escondeu)');
+  await p.close();
+}
 await b.close(); srv.close();
 console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas do menu + ${OUTRAS.length} outras, desktop e celular)`);
 process.exit(falhas.length ? 1 : 0);

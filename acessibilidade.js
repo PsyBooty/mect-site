@@ -27,7 +27,9 @@
   const salvar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch {} };
 
   // efeitos na página: classes no <html>, aplicadas já no <head> para não piscar a página normal antes
-  const fora = ':not(#a11y)';
+  // os efeitos não tocam no painel nem no VLibras (v7: #vlibras-access-wrapper e #vlibras-app-root): o contraste
+  // pintaria a janela do avatar e "esconder imagens" sumiria com as imagens dela
+  const fora = ':not(#a11y):not([id^="vlibras"]):not([id^="vlibras"] *)';
   const css = document.createElement('style');
   css.textContent = `
 html.a11y-espaco body *${fora}{line-height:1.6!important;letter-spacing:.12em!important;word-spacing:.16em!important}
@@ -35,7 +37,7 @@ html.a11y-fonte body *${fora}:not(svg):not(svg *){font-family:Verdana,Tahoma,Ari
 html.a11y-contraste body,html.a11y-contraste body *${fora}{background:#fff!important;color:#000!important;border-color:#000!important;text-shadow:none!important;box-shadow:none!important}
 html.a11y-contraste a${fora},html.a11y-contraste a *${fora}{color:#0000c8!important;text-decoration:underline!important}
 html.a11y-cinza{filter:grayscale(1)}
-html.a11y-imagens img,html.a11y-imagens video,html.a11y-imagens picture{opacity:0!important}
+html.a11y-imagens img${fora},html.a11y-imagens video${fora},html.a11y-imagens picture${fora}{opacity:0!important}
 html.a11y-imagens body *${fora}{background-image:none!important}
 html.a11y-animacoes *,html.a11y-animacoes *::before,html.a11y-animacoes *::after{animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001s!important;transition-delay:0s!important;scroll-behavior:auto!important}
 html.a11y-links a{text-decoration:underline!important;text-underline-offset:3px!important;outline:2px solid #e8a400!important;outline-offset:2px!important}
@@ -56,7 +58,7 @@ html.a11y-foco :focus{outline:4px solid #e8a400!important;outline-offset:3px!imp
     originais.clear();
     const f = NIVEIS[estado.texto || 0] || 1;
     if (f === 1) return;
-    const alvos = [...document.body.querySelectorAll('*')].filter((el) => !el.closest('header,#a11y,script,style,svg')
+    const alvos = [...document.body.querySelectorAll('*')].filter((el) => !el.closest('header,#a11y,[id^="vlibras"],script,style,svg')
       && (el.matches('input,select,textarea') || [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())));
     const tamanhos = alvos.map((el) => parseFloat(getComputedStyle(el).fontSize)); // lê tudo antes de escrever: não acumula
     alvos.forEach((el, i) => { originais.set(el, el.style.fontSize); el.style.fontSize = `${tamanhos[i] * f}px`; });
@@ -84,6 +86,8 @@ h2{flex:1;margin:0;font-size:18px;font-weight:700}
 .ferr{display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 12px;border:2px solid #e2e6ec;border-radius:12px;background:#f6f8fa;color:#111;font-size:14.5px;line-height:1.25;text-align:left;cursor:pointer}
 .ferr:hover{border-color:#b9c2cf}
 .ferr[aria-pressed=true]{border-color:var(--a11y-cor,#1849d6);background:#eaf0ff}
+.ferr[aria-pressed=true]::after{content:"✓";margin-left:auto;font-weight:700;font-size:16px;color:var(--a11y-cor,#1849d6)}
+@media (forced-colors:active){.ferr[aria-pressed=true]{border:3px solid Highlight}.ferr[aria-pressed=true]::after{color:Highlight}}
 .ferr small{display:block;font-size:12.5px;color:#4a5361}
 .rodape{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;font-size:14px}
 .redefinir{border:0;background:none;color:#111;text-decoration:underline;font-size:14px;cursor:pointer;padding:6px 0}
@@ -117,15 +121,19 @@ a{color:#0b3fb3}
       if (estado.mascara && !mCima.style.top) mover(innerHeight / 2); // começa no meio até o ponteiro mexer
       if (estado.animacoes) for (const v of document.querySelectorAll('video')) v.pause();
     };
+    // o botão marca na hora e o "texto maior" (pesado: ~180–350 ms no corpo clínico do IOG com CPU 4x mais lenta) roda
+    // depois do próximo quadro, senão o toque demora a responder (INP)
+    const depoisDePintar = (f) => requestAnimationFrame(() => setTimeout(f));
     const mudar = (id) => {
       if (id === 'texto') estado.texto = ((estado.texto || 0) + 1) % NIVEIS.length;
       else estado[id] = !estado[id];
-      salvar(); aplicarClasses(); if (id === 'texto') { escalar(); posicionar(); } mostrar();
+      salvar(); aplicarClasses(); mostrar();
+      if (id === 'texto') depoisDePintar(() => { escalar(); posicionar(); });
     };
     abrir.onclick = () => alternar(painel.hidden);
     raiz.querySelector('.fechar').onclick = () => { alternar(false); abrir.focus(); };
     raiz.querySelector('.grade').onclick = (e) => { const b = e.target.closest('.ferr'); if (b) mudar(b.dataset.id); };
-    raiz.querySelector('.redefinir').onclick = () => { estado = {}; salvar(); aplicarClasses(); escalar(); posicionar(); mostrar(); };
+    raiz.querySelector('.redefinir').onclick = () => { estado = {}; salvar(); aplicarClasses(); mostrar(); depoisDePintar(() => { escalar(); posicionar(); }); };
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !painel.hidden) { alternar(false); abrir.focus(); } });
     document.addEventListener('click', (e) => { if (!painel.hidden && !e.composedPath().includes(host)) alternar(false); });
     // máscara de leitura: faixa clara de 120 px que segue o ponteiro (mouse ou dedo), o resto escurece
