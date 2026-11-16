@@ -9,6 +9,7 @@
   "favicon": "/favicon.ico",
   "ogImagem": "https://mect.com.br/assets/img/og.jpg",
   "site": "https://mect.com.br/",
+  "canonical": "https://mect.com.br/links/",
   "utm": "utm_source=instagram&utm_medium=bio",
   "fontesCss": "/assets/fontes/satoshi.css",
   "tema": {

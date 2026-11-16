@@ -35,6 +35,9 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   const ancoras = await p.evaluate(() => [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href')).filter((h) => !document.querySelector(h)));
   ok(!ancoras.length, `${nome}: âncoras sem destino: ${ancoras}`);
   ok((await p.getAttribute('#nav [aria-current="page"]', 'href')) === caminho, `${nome}: item do menu não marcado`);
+  // barra fixa "WhatsApp | Ligar" só no celular, com o ícone do painel de acessibilidade acima dela (teste do iog-novo-site)
+  ok((await p.isVisible('.barra-acao')) === (tela === 'celular'), `${nome}: barra WhatsApp | Ligar ${tela === 'celular' ? 'não aparece' : 'aparece no desktop'}`);
+  if (tela === 'celular') ok(await p.evaluate(() => document.querySelector('#a11y .abrir, #a11y') && document.querySelector('#a11y').getBoundingClientRect().bottom <= document.querySelector('.barra-acao').getBoundingClientRect().top), `${nome}: ícone de acessibilidade acima da barra WhatsApp | Ligar`);
   if (caminho === '/') for (const sel of ['.hero__bts .bt--azul', '.hero__bts .bt--linha']) {
     const recebe = await p.$eval(sel, (el) => { const r = el.getBoundingClientRect(); return el.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); });
     ok(recebe, `${nome}: ${sel} não recebe o clique`);

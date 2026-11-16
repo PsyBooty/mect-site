@@ -22,6 +22,7 @@
 html { scroll-padding-top: 84px; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } @view-transition { navigation: auto; } }
 body > header { view-transition-name: topo; }
+.barra-acao { view-transition-name: barra; display: none; }
 body { margin: 0; font-family: Satoshi, system-ui, sans-serif; font-weight: 500; color: var(--texto); background: #fbfcff; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
@@ -158,6 +159,17 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
   .nav a { padding: 12px 0; border-bottom: 1px solid var(--borda); }
   .nav a::after { display: none; }
   .bt--topo { display: none; }
+  /* barra fixa "WhatsApp | Ligar" no lugar do "Fale com MECT" do topo (skill site-institucional §5): botões de 52 px e
+     letra de 17 px; o rodapé e a rolagem até âncora/foco ganham a altura dela (~73 px) para nada ficar embaixo */
+  html { scroll-padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  .rodape { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+  .barra-acao { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--borda); }
+  /* letra cresce com o celular até caber meia tela (min com vw); com o texto maior do painel, que soma por cima, o
+     ícone sai antes de "WhatsApp" estourar o botão (consulta de contêiner em em) */
+  .barra-acao a { display: flex; align-items: center; justify-content: center; gap: .5em; min-height: 52px; padding: 4px 6px; border-radius: 999px; border: 2px solid var(--azul); font-size: min(1.0625rem, 5.5vw); font-weight: 700; text-decoration: none; text-align: center; container-type: inline-size; }
+  @container (max-width: 6.7em) { .barra-acao .ic { display: none; } }
+  .barra-acao a:first-child { background: var(--azul); color: #fff; }
+  .barra-acao a:last-child { background: #fff; color: var(--azul); }
   .grade--2 { grid-template-columns: minmax(0, 1fr); }
   .produto { grid-template-columns: 1fr; padding: 24px; }
   .produto__img { order: -1; border-radius: 14px; }
