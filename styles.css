@@ -179,7 +179,7 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
 /* ---------- páginas internas ---------- */
 .pagina-topo { background: radial-gradient(circle at 90% 0%, #dce9ff, transparent 55%), var(--azul-cl); border-bottom: 1px solid var(--borda); }
 .pagina-topo__in { max-width: var(--larg); margin: 0 auto; padding: 36px 20px 44px; }
-.pagina-topo h1 { font-weight: 900; font-size: clamp(2.1rem, 4vw, 3rem); margin-top: 14px; }
+.pagina-topo h1 { font-weight: 900; font-size: min(clamp(2.1rem, 4vw, 3rem), 10vw); margin-top: 14px; } /* min(…, vw): letra a 200% no celular sem quebrar palavra (web-moderna.md §3) */
 .pagina-topo h1::after { content: ""; display: block; width: 60px; height: 6px; margin-top: 10px; border-radius: 6px; background: var(--azul); }
 .pagina-topo p { margin-top: 16px; font-size: 1.15rem; max-width: 40em; }
 .trilha { display: flex; flex-wrap: wrap; gap: 8px; font-size: .92rem; color: var(--texto); }
@@ -248,7 +248,7 @@ main > .secao:last-child { padding-bottom: 64px; }
 /* ---------- home v2 (junção do site atual com o mockup "MECT Tecnologia com espaçamento equilibrado") ---------- */
 .hero2 { position: relative; overflow-x: clip; background: radial-gradient(ellipse 48% 62% at 76% 46%, #cfe0ff 0%, #e2ecff 45%, transparent 72%), radial-gradient(ellipse 40% 50% at 100% 100%, #e6efff, transparent 70%); }
 .hero2__in { max-width: var(--larg); margin: 0 auto; padding: 48px 20px 36px; display: grid; grid-template-columns: 1fr 1.18fr; gap: 24px; align-items: center; }
-.hero2 h1 { font-weight: 900; font-size: clamp(2.4rem, 4.6vw, 3.7rem); letter-spacing: -.035em; }
+.hero2 h1 { font-weight: 900; font-size: min(clamp(2.4rem, 4.6vw, 3.7rem), 12vw); letter-spacing: -.035em; }
 .hero2 h1 em { font-style: normal; color: var(--azul); display: inline-block; padding-bottom: .1em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M3 9C60 3 130 2 197 5' fill='none' stroke='%231560e8' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") left bottom / 100% .2em no-repeat; }
 .hero2__txt > p { margin-top: 18px; font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.35; color: var(--tinta); max-width: 17em; }
 
