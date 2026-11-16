@@ -61,3 +61,17 @@ Junção do site atual com o mockup novo do dono (`artes/MECT Tecnologia com esp
   números sobem, inclinação segue o mouse. Tudo desligado com `prefers-reduced-motion`.
 - **Presença Online** é produto novo do MECT: posts para Instagram, SEO e hotsite (o mesmo serviço feito para uma cliente
   em outra sessão; o nome dela não vai ao site sem autorização). Botão leva à seção em /produtos/ e dali ao WhatsApp.
+
+## Cardápio digital (2026-11-16)
+Pedido do dono: "uma forma de apresentar isso pros clientes" (o cardápio próprio da skill `site-institucional`), com os
+exemplos **navegáveis, não prints**. Ficou em **`/cardapio/`** dentro deste site, não num repositório separado: o GitHub
+Pages só serve no mect.com.br o que está neste repositório.
+- `/cardapio/` (`paginas/cardapio.html`, indexável, no sitemap): os 5 modelos funcionando numa moldura de celular.
+  Desktop: dá para rolar o cardápio dentro da moldura. Toque (`hover: none`): a prévia não prende a rolagem, e tocar
+  abre o modelo em tela cheia. Botões "Tela cheia" e "Quero este" (WhatsApp com o nome do modelo).
+- `/cardapio/<estilo>/`: gerados pelo `montar.mjs` a partir dos `exemplo*.json` da skill
+  (`~/.claude/skills/site-institucional/modelos/cardapio/`) com o mesmo `gerar-cardapio.mjs` dos clientes. Fora: o
+  WhatsApp, o telefone e o site fictícios dos exemplos (podiam cair em gente de verdade). Dentro: o WhatsApp do MECT, uma
+  faixa "Exemplo fictício · modelo X / Ver os 5 modelos" no topo, e `noindex`.
+- Ligado pelo rodapé (Produtos → Cardápio digital) e pelo Presença Online em /produtos/.
+- A página diz que os restaurantes são fictícios e as fotos são de banco de imagens.

@@ -404,3 +404,28 @@ main > .secao:last-child { padding-bottom: 64px; }
 }
 .presenca__itens--pagina { padding: 0 30px; }
 @media (max-width: 1000px) { .presenca__itens--pagina { padding: 0; border: 0; } }
+
+/* ---------- cardápio digital (/cardapio/): os modelos funcionando dentro de uma moldura de celular ---------- */
+/* flex e não grid: a última fileira (5 = 3 + 2) fica centralizada em vez de deixar um buraco à direita */
+.modelos { --col: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 44px 26px; }
+.modelo { flex: 0 1 calc((100% - (var(--col) - 1) * 26px) / var(--col)); display: flex; flex-direction: column; min-width: 0; }
+.modelo__tela { position: relative; background: var(--tinta); border-radius: 38px; padding: 10px; box-shadow: 0 26px 50px rgba(11, 30, 80, .2); }
+.modelo__tela iframe { display: block; width: 100%; height: 640px; border: 0; border-radius: 29px; background: #fff; }
+.modelo__toque { display: none; position: absolute; inset: 0; border-radius: inherit; }
+.modelo__toque:focus-visible { outline: 3px solid var(--azul); outline-offset: 4px; }
+.modelo h3 { font-weight: 900; font-size: 1.4rem; margin-top: 22px; }
+.modelo p { margin-top: 6px; }
+.modelo__bts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 16px; }
+.modelo__bts .bt { padding: .6em 1.2em; }
+.cardapio-nota { margin-top: 28px; }
+.presenca__itens a { color: var(--azul); font-weight: 700; }
+@media (max-width: 1000px) { .modelos { --col: 2; } }
+@media (max-width: 640px) {
+  .modelos { --col: 1; max-width: 400px; margin: 0 auto; }
+  .modelo__tela iframe { height: 540px; }
+}
+/* no toque, a prévia não prende a rolagem da página: tocar abre o modelo em tela cheia */
+@media (hover: none) {
+  .modelo__tela iframe { pointer-events: none; }
+  .modelo__toque { display: block; }
+}

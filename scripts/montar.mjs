@@ -4,7 +4,8 @@
 // e "robots:" (ex. noindex). Também gera sitemap.xml com as páginas indexáveis.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { homedir, tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 
 // o menu mora só aqui
@@ -38,3 +39,24 @@ console.log('sitemap.xml', urls.length, 'páginas');
 
 // página de links da bio (/links): dados/links.json → links/index.html, fora do sitemap (é noindex)
 execFileSync(process.execPath, ['scripts/gerar-links.mjs', 'dados/links.json', 'links/index.html'], { stdio: 'inherit' });
+
+// modelos de cardápio digital (/cardapio/<estilo>/, vitrine em paginas/cardapio.html): os exemplos da skill
+// site-institucional, gerados pelo mesmo gerar-cardapio.mjs que vai para o cliente. Muda só o que é fictício e poderia
+// cair em gente de verdade (WhatsApp, telefone, site) e o Google fica de fora.
+const skill = join(homedir(), '.claude/skills/site-institucional');
+const MODELOS = [['cafe', 'Café', 'exemplo.json'], ['vitrine', 'Vitrine', 'exemplo.json'], ['mesa', 'Mesa', 'exemplo-bar.json'],
+  ['autoral', 'Autoral', 'exemplo-restaurante.json'], ['classico', 'Clássico', 'exemplo.json']];
+const FAIXA_CSS = '.demo{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 14px;padding:8px 16px;background:#0b1033;color:#fff;font:600 13px/1.4 system-ui,sans-serif;text-align:center}.demo a{color:#9cc2ff}';
+for (const [estilo, nome, arq] of MODELOS) {
+  const { site, telefone, ...d } = JSON.parse(readFileSync(join(skill, 'modelos/cardapio', arq), 'utf8'));
+  Object.assign(d, { estilo, robots: 'noindex', favicon: '/favicon.ico', whatsapp: '5562994050744',
+    mensagem: `Olá! Vi o modelo ${nome} de cardápio digital no site MECT e quero um assim.`,
+    titulo: `Modelo ${nome} · cardápio digital MECT`, credito: { texto: 'Desenvolvido por MECT', url: 'https://mect.com.br/cardapio/' } });
+  const tmp = join(tmpdir(), `cardapio-${estilo}.json`), saida = join('cardapio', estilo, 'index.html');
+  writeFileSync(tmp, JSON.stringify(d)); mkdirSync(dirname(saida), { recursive: true });
+  execFileSync(process.execPath, [join(skill, 'scripts/gerar-cardapio.mjs'), tmp, saida], { stdio: 'inherit' });
+  const html = readFileSync(saida, 'utf8');
+  if (!html.includes('<body>')) throw new Error(`${saida}: sem <body> para a faixa de exemplo`);
+  writeFileSync(saida, html.replace('</head>', `<style>${FAIXA_CSS}</style>\n</head>`).replace('<body>',
+    `<body>\n<div class="demo"><span>Exemplo fictício · modelo ${nome}</span><a href="/cardapio/" target="_top">Ver os 5 modelos</a></div>`));
+}

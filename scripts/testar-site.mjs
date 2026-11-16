@@ -52,8 +52,9 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   }
   await p.close();
 }
-// páginas fora do layout (sem menu): só o básico
-for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of ['/links/', '/404.html']) {
+// páginas fora do menu: só o básico
+const OUTRAS = ['/links/', '/404.html', '/cardapio/', ...['cafe', 'vitrine', 'mesa', 'autoral', 'classico'].map((e) => `/cardapio/${e}/`)];
+for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of OUTRAS) {
   const nome = `${tela} ${caminho}`;
   const p = await b.newPage({ viewport: { width: largura, height: 850 } });
   p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
@@ -63,5 +64,5 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   await p.close();
 }
 await b.close(); srv.close();
-console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas + /links e 404, desktop e celular)`);
+console.log(falhas.length ? 'FALHAS:\n- ' + falhas.join('\n- ') : `tudo certo (${PAGINAS.length} páginas do menu + ${OUTRAS.length} outras, desktop e celular)`);
 process.exit(falhas.length ? 1 : 0);
