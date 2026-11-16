@@ -1,5 +1,5 @@
-// Painel de acessibilidade dos nossos sites estáticos: ícone fixo no canto, painel com 10 ferramentas de leitura e a
-// escolha lembrada no navegador da pessoa (localStorage), valendo em todas as páginas.
+// Painel de acessibilidade dos nossos sites estáticos: ícone fixo no canto, painel com 11 ferramentas de leitura (uma
+// delas lê a página em voz alta) e a escolha lembrada no navegador da pessoa (localStorage), valendo em todas as páginas.
 // Origem: pedido do dono 2026-11-16, inspirado no Ally da Elementor (aevoimobiliaria.com.br), que só roda em WordPress
 // e pesa ~162 KB; este faz o essencial em um arquivo, sem dependência. Detalhes: references/acessibilidade.md.
 // Uso: copie para a raiz do site e ponha no <head>, SEM defer (aplica contraste/cinza antes de pintar a página):
@@ -11,6 +11,7 @@
   const declaracao = document.currentScript?.dataset.declaracao;
   const NIVEIS = [1, 1.15, 1.3, 1.5]; // texto maior: cada clique sobe um nível e volta ao normal depois do último
   const FERRAMENTAS = [
+    ['voz', 'Ler em voz alta', '<path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z"/><path d="M15.5 9.5a3.5 3.5 0 010 5M18 7a7 7 0 010 10"/>'], // ação, não fica salva
     ['texto', 'Texto maior', '<path d="M4 7V5h11v2M9.5 5v14M7 19h5M14 12v-1.5h7V12M17.5 10.5V19M16 19h3"/>'],
     ['espaco', 'Espaçar o texto', '<path d="M4 6h16M4 12h16M4 18h16M2 9l2-3 2 3M2 15l2 3 2-3"/>'],
     ['fonte', 'Fonte legível', '<path d="M4 19l5-14 5 14M6 14h6M16 19v-6a2.5 2.5 0 015 0v6M16 16h5"/>'],
@@ -41,7 +42,8 @@ html.a11y-imagens img${fora},html.a11y-imagens video${fora},html.a11y-imagens pi
 html.a11y-imagens body *${fora}{background-image:none!important}
 html.a11y-animacoes *,html.a11y-animacoes *::before,html.a11y-animacoes *::after{animation-duration:.001s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001s!important;transition-delay:0s!important;scroll-behavior:auto!important}
 html.a11y-links a{text-decoration:underline!important;text-underline-offset:3px!important;outline:2px solid #e8a400!important;outline-offset:2px!important}
-html.a11y-foco :focus{outline:4px solid #e8a400!important;outline-offset:3px!important;box-shadow:0 0 0 7px #000!important}`;
+html.a11y-foco :focus{outline:4px solid #e8a400!important;outline-offset:3px!important;box-shadow:0 0 0 7px #000!important}
+html body .a11y-lendo${fora}{outline:3px solid #e8a400!important;outline-offset:4px!important;background:#fff4c2!important;border-radius:4px}`;
   document.head.append(css);
   const aplicarClasses = () => {
     // a11y-texto não tem CSS aqui: é o gancho para o site adaptar o que é frágil com texto maior (ex.: rodapé do IOG)
@@ -76,6 +78,9 @@ html.a11y-foco :focus{outline:4px solid #e8a400!important;outline-offset:3px!imp
 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .abrir{width:52px;height:52px;border-radius:50%;border:2px solid #fff;background:var(--a11y-cor,#1849d6);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.28)}
 .abrir svg{width:30px;height:30px;stroke-width:1.6}
+.abrir.lendo{box-shadow:0 0 0 4px #e8a400,0 4px 14px rgba(0,0,0,.28)}
+.ferr[data-id=voz]{grid-column:1/-1}
+.ferr[hidden]{display:none}
 .abrir:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #e8a400;outline-offset:2px}
 .painel{position:absolute;left:0;bottom:64px;width:min(360px,calc(100vw - 32px));max-height:min(620px,calc(100vh - 110px));overflow:auto;background:#fff;color:#111;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.3);padding:16px}
 .painel[hidden]{display:none}
@@ -114,9 +119,11 @@ a{color:#0b3fb3}
     const mostrar = () => {
       for (const b of raiz.querySelectorAll('.ferr')) {
         const id = b.dataset.id, nivel = estado.texto || 0;
-        b.setAttribute('aria-pressed', String(id === 'texto' ? nivel > 0 : !!estado[id]));
+        b.setAttribute('aria-pressed', String(id === 'voz' ? lendo : id === 'texto' ? nivel > 0 : !!estado[id]));
         if (id === 'texto') b.querySelector('small').textContent = nivel ? `${Math.round(NIVEIS[nivel] * 100)}%` : '';
+        if (id === 'voz') b.querySelector('small').textContent = lendo ? 'Lendo… toque de novo para parar' : 'Lê a página ou o trecho selecionado (Alt + L)';
       }
+      abrir.classList.toggle('lendo', lendo);
       mCima.hidden = mBaixo.hidden = !estado.mascara;
       if (estado.mascara && !mCima.style.top) mover(innerHeight / 2); // começa no meio até o ponteiro mexer
       if (estado.animacoes) for (const v of document.querySelectorAll('video')) v.pause();
@@ -130,11 +137,63 @@ a{color:#0b3fb3}
       salvar(); aplicarClasses(); mostrar();
       if (id === 'texto') depoisDePintar(() => { escalar(); posicionar(); });
     };
+    // ler em voz alta: a voz do próprio navegador (speechSynthesis), sem baixar nada. Lê o <main> bloco a bloco
+    // (ou só o trecho selecionado), destacando o bloco lido. Só começa num toque ou no Alt+L (o navegador bloqueia fala
+    // sem gesto da pessoa) e nunca fica salvo. Pedaços de até 200 caracteres: o Chrome corta falas longas (~15 s).
+    const fala = window.speechSynthesis;
+    let lendo = false, leitura = 0, atual = null;
+    const BLOCOS = 'h1,h2,h3,h4,h5,h6,p,li,dt,dd,th,td,blockquote,figcaption,label,summary';
+    const pedacos = (t) => (t.match(/[^.!?…]+[.!?…]*\s*/g) || [t]).reduce((a, s) => {
+      if (a.length && (a[a.length - 1] + s).length <= 200) a[a.length - 1] += s; else a.push(s);
+      return a;
+    }, []).map((s) => s.trim()).filter(Boolean);
+    const blocos = () => [...(document.querySelector('main') || document.body).querySelectorAll(BLOCOS)].filter((el) =>
+      !el.parentElement.closest(BLOCOS) && !el.closest('nav,#a11y,[id^="vlibras"],[aria-hidden="true"]') && el.getClientRects().length && el.innerText.trim());
+    const destacar = (el) => {
+      if (el === atual) return;
+      atual?.classList.remove('a11y-lendo'); atual = el;
+      if (el) { el.classList.add('a11y-lendo'); el.scrollIntoView({ block: 'center', behavior: estado.animacoes || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+    };
+    const parar = () => { lendo = false; leitura++; fala?.cancel(); destacar(null); mostrar(); };
+    const iniciar = () => {
+      const sel = getSelection().toString().trim();
+      const fila = sel ? pedacos(sel).map((t) => [null, t]) : blocos().flatMap((el) => pedacos(el.innerText.replace(/\s+/g, ' ').trim()).map((t) => [el, t]));
+      if (!fila.length) return;
+      // voz: as mais naturais primeiro (Google no Chrome, "Natural"/"Online" no Edge), depois qualquer pt-BR (Android usa pt_BR)
+      const pt = fala.getVoices().filter((v) => v.lang.replace('_', '-').startsWith('pt'));
+      const br = pt.filter((v) => /BR/i.test(v.lang));
+      const vez = ++leitura, voz = br.find((v) => /natural|google|online/i.test(v.name)) || br[0] || pt[0];
+      let i = 0;
+      const proximo = () => {
+        if (vez !== leitura) return; // parou ou recomeçou: o "fim" da fala cancelada não avança a fila nova
+        if (i >= fila.length) return parar();
+        const [el, t] = fila[i++];
+        destacar(el);
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = 'pt-BR'; if (voz) u.voice = voz;
+        u.onend = u.onerror = proximo;
+        fala.speak(u);
+      };
+      fala.cancel(); lendo = true; mostrar(); proximo();
+    };
+    const alternarLeitura = () => { if (fala) lendo ? parar() : iniciar(); };
+    if (!fala || !window.SpeechSynthesisUtterance) raiz.querySelector('[data-id="voz"]').hidden = true;
+    addEventListener('pagehide', () => fala?.cancel());
+
     abrir.onclick = () => alternar(painel.hidden);
     raiz.querySelector('.fechar').onclick = () => { alternar(false); abrir.focus(); };
-    raiz.querySelector('.grade').onclick = (e) => { const b = e.target.closest('.ferr'); if (b) mudar(b.dataset.id); };
-    raiz.querySelector('.redefinir').onclick = () => { estado = {}; salvar(); aplicarClasses(); mostrar(); depoisDePintar(() => { escalar(); posicionar(); }); };
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !painel.hidden) { alternar(false); abrir.focus(); } });
+    raiz.querySelector('.grade').onclick = (e) => {
+      const b = e.target.closest('.ferr');
+      if (!b) return;
+      if (b.dataset.id !== 'voz') return mudar(b.dataset.id);
+      alternarLeitura();
+      if (lendo) { alternar(false); abrir.focus(); } // fecha para a pessoa ver o trecho destacado
+    };
+    raiz.querySelector('.redefinir').onclick = () => { if (lendo) parar(); estado = {}; salvar(); aplicarClasses(); mostrar(); depoisDePintar(() => { escalar(); posicionar(); }); };
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !painel.hidden) { alternar(false); abrir.focus(); }
+      if (e.altKey && e.code === 'KeyL' && !e.ctrlKey && !e.metaKey) { e.preventDefault(); alternarLeitura(); } // Alt+L (AltGr = Ctrl+Alt fica de fora)
+    });
     document.addEventListener('click', (e) => { if (!painel.hidden && !e.composedPath().includes(host)) alternar(false); });
     // máscara de leitura: faixa clara de 120 px que segue o ponteiro (mouse ou dedo), o resto escurece
     document.addEventListener('pointermove', (e) => { if (estado.mascara) mover(e.clientY); }, { passive: true });
