@@ -22,7 +22,7 @@ for (const arq of readdirSync('paginas').filter((f) => f.endsWith('.html'))) {
   for (const k of ['url', 'titulo', 'descricao']) if (!meta[k]) throw new Error(`${arq}: falta "${k}:"`);
   const nav = MENU.map(([u, t]) => `      <a href="${u}"${u === meta.url ? ' aria-current="page"' : ''}>${t}</a>`).join('\n');
   const robots = meta.robots ? `<meta name="robots" content="${meta.robots}">\n` : '';
-  const vals = { titulo: meta.titulo, descricao: meta.descricao, url: meta.url, nav, robots, v_css: versao('styles.css'), v_js: versao('main.js'), conteudo: fonte.slice(cab[0].length).trim() };
+  const vals = { titulo: meta.titulo, descricao: meta.descricao, url: meta.url, nav, robots, v_css: versao('styles.css'), v_js: versao('main.js'), v_a11y: versao('acessibilidade.js'), conteudo: fonte.slice(cab[0].length).trim() };
   // troca de uma vez só, para o conteúdo da página nunca ser lido como marcador
   const html = layout.replace(/\{\{(\w+)\}\}/g, (m, k) => { if (!(k in vals)) throw new Error(`${arq}: marcador desconhecido ${m}`); return vals[k]; });
   const destino = meta.arquivo ?? join('.', meta.url, 'index.html');

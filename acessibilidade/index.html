@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acessibilidade — MECT Tecnologia</title>
+<meta name="description" content="Recursos de acessibilidade do site da MECT: painel com texto maior, alto contraste, fonte legível, máscara de leitura e mais, e navegação pelo teclado.">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/icone-180.png">
+<meta name="theme-color" content="#1560e8">
+<link rel="canonical" href="https://mect.com.br/acessibilidade/">
+<meta property="og:url" content="https://mect.com.br/acessibilidade/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Acessibilidade — MECT Tecnologia">
+<meta property="og:description" content="Recursos de acessibilidade do site da MECT: painel com texto maior, alto contraste, fonte legível, máscara de leitura e mais, e navegação pelo teclado.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="MECT Tecnologia">
+<meta property="og:image" content="https://mect.com.br/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MECT Tecnologia: tecnologia para modernizar sua operação">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/assets/fontes/satoshi-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fontes/satoshi-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css?v=2ad2d4bb">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"MECT Tecnologia","legalName":"MECT TECNOLOGIA LTDA","taxID":"66.662.050/0001-42","email":"contato@mect.com.br","telephone":"+55 62 99405-0744","address":{"@type":"PostalAddress","addressLocality":"Goiânia","addressRegion":"GO","addressCountry":"BR"}}
+</script>
+<!-- painel de acessibilidade (modelo da skill site-institucional, 2026-11-16): no <head> sem defer, para o contraste entrar antes de a página aparecer -->
+<script src="/acessibilidade.js?v=353d485f" data-declaracao="/acessibilidade/"></script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <clipPath id="curva" clipPathUnits="objectBoundingBox"><path d="M.2 0H1V1H.06C.2 .78 .02 .6 .1 .36C.14 .2 .17 .1 .2 0Z"/></clipPath>
+</svg>
+
+<header class="topo">
+  <div class="topo__in">
+    <a class="logo" href="/">
+      <img src="/assets/img/logo-mect.webp" width="298" height="120" alt="MECT Tecnologia">
+    </a>
+    <button class="menu-bt" aria-expanded="false" aria-controls="nav"><span>Menu</span></button>
+    <nav id="nav" class="nav" aria-label="Principal">
+      <a href="/">Início</a>
+      <a href="/servicos/">Serviços</a>
+      <a href="/produtos/">Produtos</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/contato/">Contato</a>
+    </nav>
+    <a class="bt bt--azul bt--topo" href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20vim%20pelo%20site%20MECT." target="_blank" rel="noopener">
+      Fale com MECT
+    </a>
+  </div>
+</header>
+
+<main id="conteudo">
+<!-- Declaração de acessibilidade (padrão da skill site-institucional, 2026-11-16). Só afirma o que o site faz de fato: conferir antes de acrescentar algo. -->
+<section class="pagina-topo">
+  <div class="pagina-topo__in">
+    <nav class="trilha" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">›</span><span aria-current="page">Acessibilidade</span></nav>
+    <h1>Acessibilidade</h1>
+    <p>Este site foi feito para ser usado por todas as pessoas, inclusive quem navega pelo teclado, usa leitor de tela ou precisa de letras maiores.</p>
+  </div>
+</section>
+
+<section class="secao secao--interna">
+  <div class="bloco revela">
+    <h2>Painel de acessibilidade</h2>
+    <p>Em todas as páginas, no canto inferior esquerdo, há um botão redondo com o símbolo de acessibilidade. Ele abre um painel para adaptar a leitura:</p>
+    <ul class="checks checks--col">
+      <li>Texto maior (115%, 130% ou 150%)</li>
+      <li>Espaçar o texto</li>
+      <li>Fonte legível</li>
+      <li>Alto contraste</li>
+      <li>Tons de cinza</li>
+      <li>Esconder imagens</li>
+      <li>Pausar animações</li>
+      <li>Destacar links</li>
+      <li>Máscara de leitura</li>
+      <li>Destacar foco do teclado</li>
+    </ul>
+    <p>A escolha fica salva neste navegador e vale em todas as páginas. Para voltar ao normal, use “Redefinir tudo” no próprio painel.</p>
+  </div>
+  <div class="bloco revela">
+    <h2>O que mais o site faz</h2>
+    <ul class="checks">
+      <li>Um link “Pular para o conteúdo” no começo de cada página, para quem navega pelo teclado (aparece ao apertar Tab).</li>
+      <li>Foco sempre visível ao navegar pelo teclado; no celular, o menu fecha com Esc e devolve o foco ao botão.</li>
+      <li>Descrição em texto nas imagens, lida pelos leitores de tela.</li>
+      <li>O zoom do navegador funciona em todas as páginas: Ctrl e + no computador, ou o movimento de pinça no celular.</li>
+    </ul>
+  </div>
+  <div class="bloco revela">
+    <h2>No seu site também</h2>
+    <p>Os sites novos que a MECT desenvolve já saem com este painel e, para saúde e serviço público, com tradução em Libras pelo VLibras, o tradutor oficial e gratuito do governo federal. <a href="/servicos/#web-design">Conheça o serviço de web design</a>.</p>
+  </div>
+  <div class="bloco revela">
+    <h2>Encontrou alguma dificuldade?</h2>
+    <p>Conte para a gente pelo WhatsApp <a href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20tive%20dificuldade%20para%20usar%20o%20site%20da%20MECT." target="_blank" rel="noopener">(62) 99405-0744</a> ou pelo e-mail <a href="mailto:contato@mect.com.br">contato@mect.com.br</a>. Esta página foi atualizada em 16 de novembro de 2026.</p>
+  </div>
+</section>
+</main>
+
+<footer class="rodape">
+  <div class="rodape__in">
+    <div class="rodape__marca">
+      <a class="logo" href="/">
+        <img src="/assets/img/logo-mect.webp" width="298" height="120" alt="MECT Tecnologia">
+      </a>
+      <p>Tecnologia que conecta pessoas, processos e resultados.</p>
+    </div>
+    <div class="rodape__col"><h3>Serviços</h3><a href="/servicos/#web-design">Web design</a><a href="/servicos/#consultoria">Consultoria em TI</a><a href="/servicos/#sob-medida">Desenvolvimento sob medida</a></div>
+    <div class="rodape__col"><h3>Produtos</h3><a href="https://qualiguide.com.br" target="_blank" rel="noopener">QualiGuide</a><a href="/produtos/#watchdesk">WatchDesk</a><a href="/produtos/#presenca-online">Presença Online</a><a href="/cardapio/">Cardápio digital</a></div>
+    <div class="rodape__col"><h3>Institucional</h3><a href="/sobre/">Sobre</a><a href="/contato/">Contato</a><a href="/acessibilidade/">Acessibilidade</a></div>
+    <div class="rodape__col"><h3>Contato</h3><a href="mailto:contato@mect.com.br">contato@mect.com.br</a><a href="https://wa.me/5562994050744" target="_blank" rel="noopener">(62) 99405-0744</a><span>Goiânia – GO · seg a sex, 8h30 às 18h</span></div>
+  </div>
+  <p class="rodape__legal"><span>© 2026 MECT TECNOLOGIA LTDA</span> · <span>CNPJ 66.662.050/0001-42</span></p>
+</footer>
+
+<script src="/main.js?v=3434261e" defer></script>
+</body>
+</html>

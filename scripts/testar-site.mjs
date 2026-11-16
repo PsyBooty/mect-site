@@ -53,13 +53,24 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   await p.close();
 }
 // páginas fora do menu: só o básico
-const OUTRAS = ['/links/', '/404.html', '/cardapio/', ...['cafe', 'vitrine', 'mesa', 'autoral', 'classico'].map((e) => `/cardapio/${e}/`)];
+const OUTRAS = ['/links/', '/404.html', '/acessibilidade/', '/cardapio/', ...['cafe', 'vitrine', 'mesa', 'autoral', 'classico'].map((e) => `/cardapio/${e}/`)];
 for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of OUTRAS) {
   const nome = `${tela} ${caminho}`;
   const p = await b.newPage({ viewport: { width: largura, height: 850 } });
   p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
   p.on('response', (r) => r.status() >= 400 && r.url().startsWith(url) && falhas.push(`${nome}: ${r.status()} ${r.url()}`));
   await p.goto(url + caminho.slice(1), { waitUntil: 'networkidle' });
+  ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
+  await p.close();
+}
+// painel de acessibilidade (modelo da skill): ícone em toda página do menu e texto 150% sem rolagem lateral
+for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
+  const nome = `texto 150% ${largura} ${caminho}`;
+  const p = await b.newPage({ viewport: { width: largura, height: 850 } });
+  p.on('pageerror', (e) => falhas.push(`${nome}: erro de JS: ${e.message}`));
+  await p.addInitScript(() => localStorage.setItem('acessibilidade', '{"texto":3}'));
+  await p.goto(url + caminho.slice(1), { waitUntil: 'networkidle' });
+  ok(await p.locator('#a11y .abrir').isVisible(), `${nome}: sem ícone de acessibilidade`);
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${nome}: rolagem lateral`);
   await p.close();
 }
