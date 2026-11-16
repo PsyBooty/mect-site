@@ -71,6 +71,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="text-scale" content="scale">
 <title>${esc(d.titulo ?? d.nome)}</title>
 <meta name="description" content="${esc(d.descricao ?? '')}">
 <meta name="robots" content="${esc(d.robots ?? 'noindex, follow')}">
@@ -83,7 +84,7 @@ ${d.fontesCss ? `<link rel="stylesheet" href="${esc(d.fontesCss)}">` : ''}
 <style>
 :root{--fundo:${t.fundo};--texto:${t.texto};--suave:${t.suave};--p:${t.primaria};--sp:${t.sobrePrimaria};--dest:${t.destaque};--cartao:${t.cartao};--borda:${t.borda};--r:${t.raio};--ft:${t.fonteTitulo};--fx:${t.fonteTexto}}
 *{box-sizing:border-box;margin:0}
-body{background:var(--fundo);color:var(--texto);font:16px/1.45 var(--fx);-webkit-font-smoothing:antialiased;min-height:100dvh}
+body{background:var(--fundo);color:var(--texto);font:1rem/1.45 var(--fx);-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-wrap:break-word}
 main{max-width:480px;margin:0 auto;padding:calc(28px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom))}
 header{text-align:center;margin-bottom:24px}
 .avatar{width:96px;height:96px;border-radius:50%;object-fit:${d.foto ? 'cover' : 'contain'};background:var(--cartao);border:1px solid var(--borda);${d.foto ? '' : 'padding:14px;'}}
@@ -91,12 +92,12 @@ h1{font:400 1.45rem/1.15 var(--ft);letter-spacing:.06em;text-transform:${t.caixa
 .sub{color:var(--suave);letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;margin-top:6px}
 .reg{color:var(--suave);font-size:.78rem;letter-spacing:.06em;margin-top:4px}
 .bio{margin-top:12px;color:var(--texto)}
-.grupo{display:grid;gap:10px;margin-top:22px}
+.grupo{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:22px}
 .grupo h2{font:600 .78rem/1 var(--fx);letter-spacing:.16em;text-transform:uppercase;color:var(--suave);margin:4px 2px 2px}
 .btn{display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 14px;border-radius:var(--r);background:var(--cartao);border:1px solid var(--borda);color:var(--texto);text-decoration:none;transition:transform .15s,box-shadow .15s}
 .btn-p{background:var(--p);border-color:var(--p);color:var(--sp)}
 .btn:active{transform:scale(.98)}
-.btn-txt{flex:1;display:grid}.btn-txt b{font-weight:600}.btn-txt small{opacity:.75;font-size:.82rem}
+.btn-txt{flex:1;display:grid;min-width:0;overflow-wrap:anywhere}.btn-txt b{font-weight:600}.btn-txt small{opacity:.75;font-size:.82rem}
 .ico{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .seta{width:18px;opacity:.5}
 .local{background:var(--cartao);border:1px solid var(--borda);border-radius:var(--r);padding:14px}
@@ -105,7 +106,7 @@ h1{font:400 1.45rem/1.15 var(--ft);letter-spacing:.06em;text-transform:${t.caixa
 .mini{flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:calc(var(--r) - 4px);border:1px solid var(--borda);color:var(--texto);text-decoration:none;font-weight:600;font-size:.92rem}
 .mini-p{background:var(--p);border-color:var(--p);color:var(--sp)}
 .texto p{color:var(--suave);text-align:center;font-size:.9rem}
-.redes{display:flex;justify-content:center;gap:10px;margin-top:26px}
+.redes{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
 .redes a{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--borda);color:var(--p);background:var(--cartao)}
 footer{text-align:center;color:var(--suave);font-size:.75rem;margin-top:22px;line-height:1.6}
 footer a{color:inherit}
