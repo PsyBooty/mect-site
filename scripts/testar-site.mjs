@@ -56,7 +56,7 @@ for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const 
   await p.close();
 }
 // páginas fora do menu: só o básico
-const OUTRAS = ['/links/', '/404.html', '/acessibilidade/', '/cardapio/', ...['cafe', 'vitrine', 'mesa', 'autoral', 'classico'].map((e) => `/cardapio/${e}/`)];
+const OUTRAS = ['/links/', '/404.html', '/diagnostico/', '/acessibilidade/', '/cardapio/', ...['cafe', 'vitrine', 'mesa', 'autoral', 'classico'].map((e) => `/cardapio/${e}/`)];
 for (const [tela, largura] of [['desktop', 1280], ['celular', 390]]) for (const caminho of OUTRAS) {
   const nome = `${tela} ${caminho}`;
   const p = await b.newPage({ viewport: { width: largura, height: 850 } });
@@ -85,6 +85,36 @@ for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
   // v7: o botão mora num shadow DOM aberto em #vlibras-access-wrapper (o Playwright atravessa)
   const visivel = await p.locator('#vlibras-button img').waitFor({ state: 'visible', timeout: 15000 }).then(() => true, () => false);
   ok(visivel && (await p.locator('#vlibras-button img').evaluate((i) => getComputedStyle(i).opacity)) === '1', 'VLibras: botão de Libras não aparece (ou o painel o escondeu)');
+  await p.close();
+}
+// diagnóstico grátis (/diagnostico/): o scan com o RDAP e o PageSpeed simulados, sem depender da rede nem da chave
+{
+  const p = await b.newPage({ viewport: { width: 390, height: 850 } });
+  p.on('pageerror', (e) => falhas.push(`diagnóstico: erro de JS: ${e.message}`));
+  const vence = new Date(Date.now() + 20 * 864e5).toISOString();
+  await p.route('https://rdap.org/**', (r) => r.fulfill({ json: { events: [{ eventAction: 'registration', eventDate: '2019-03-01T00:00:00Z' },
+    { eventAction: 'expiration', eventDate: vence }], nameservers: [{ ldhName: 'NS1.WIXDNS.NET' }] } }));
+  const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+  await p.route('https://www.googleapis.com/pagespeedonline/**', (r) => r.fulfill({ json: { lighthouseResult: {
+    finalDisplayedUrl: 'https://exemplo.com.br/', categories: { performance: { score: 0.42 } },
+    audits: { 'final-screenshot': { details: { data: png } }, 'largest-contentful-paint': { displayValue: '4,2 s' },
+      'document-title': { score: 1 }, 'meta-description': { score: 0 }, 'is-crawlable': { score: 1 } } } } }));
+  await p.goto(url + 'diagnostico/', { waitUntil: 'networkidle' });
+  await p.fill('#scan-site', 'abc'); await p.click('#scan-form button');
+  ok((await p.textContent('#scan-erro')).includes('Digite'), 'diagnóstico: endereço inválido não avisa');
+  await p.fill('#scan-site', 'https://www.Exemplo.com.br/contato'); await p.click('#scan-form button');
+  await p.waitForFunction(() => document.querySelector('#scan-titulo').textContent === 'Resultado de', null, { timeout: 15000 }).catch(() => {});
+  const passos = await p.$$eval('[data-p]', (ls) => Object.fromEntries(ls.map((l) => [l.dataset.p, `${l.dataset.estado} ${l.querySelector('small').textContent}`])));
+  const espera = { registro: /^aviso vence em 2\d dias/, dns: /^ok DNS em Wix$/, print: /^ok/, velocidade: /^aviso 42 de 100 · abre em 4,2 s · lento$/,
+    https: /^ok/, google: /^aviso falta a descrição$/, indexa: /^ok/ };
+  for (const [k, re] of Object.entries(espera)) ok(re.test(passos[k]), `diagnóstico: passo ${k} = "${passos[k]}"`);
+  ok(await p.isVisible('#scan-print'), 'diagnóstico: print não aparece');
+  ok((await p.textContent('#scan-alvo')) === 'www.exemplo.com.br', 'diagnóstico: endereço não foi limpo');
+  await p.fill('#scan-cidade', 'Goiânia');
+  const wa = await p.$eval('#scan-whats', (a) => { a.addEventListener('click', (e) => e.preventDefault()); a.click(); return decodeURIComponent(a.href); });
+  ok(wa.includes('Site: www.exemplo.com.br') && wa.includes('Cidade: Goiânia') && !wa.includes('Ramo:') && wa.includes('- Velocidade no celular: 42 de 100'),
+    `diagnóstico: mensagem do WhatsApp sem o resultado: ${wa}`);
+  ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'diagnóstico: rolagem lateral com o resultado');
   await p.close();
 }
 await b.close(); srv.close();

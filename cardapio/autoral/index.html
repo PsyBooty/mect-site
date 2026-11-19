@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="text-scale" content="scale">
 <title>Modelo Autoral · cardápio digital MECT</title>
 <meta name="description" content="Cozinha autoral com ingredientes do Cerrado: pequi, baru, cagaita e queijo canastra.">
 <meta name="robots" content="noindex">
@@ -12,12 +13,14 @@
 <meta property="og:description" content="Cozinha autoral com ingredientes do Cerrado: pequi, baru, cagaita e queijo canastra.">
 <link rel="icon" href="/favicon.ico">
 
+
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Casa Jatobá","address":"Rua Exemplo, 789, Setor Marista, Goiânia – GO","priceRange":"$$$","hasMenu":{"@type":"Menu","hasMenuSection":[{"@type":"MenuSection","name":"Entradas","hasMenuItem":[{"@type":"MenuItem","name":"Salada da horta com baru","description":"Folhas e legumes do produtor, baru tostado e vinagrete de cagaita.","offers":{"@type":"Offer","price":"42.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Pastel de angu com costela","description":"Quatro unidades, com molho de pimenta-de-cheiro.","offers":{"@type":"Offer","price":"38.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Pão de queijo canastra","description":"Assado na hora, com manteiga de garrafa.","offers":{"@type":"Offer","price":"24.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Principais","hasMenuItem":[{"@type":"MenuItem","name":"Bife ancho na brasa","description":"300 g, guariroba assada e farofa de baru.","offers":{"@type":"Offer","price":"138.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Salmão na brasa","description":"Legumes da horta e emulsão de pequi.","offers":{"@type":"Offer","price":"112.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Arroz de pequi com frango caipira","description":"Na panela de ferro, para dividir.","offers":{"@type":"Offer","price":"96.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Risoto de queijo canastra","description":"Cogumelos na manteiga e ervas.","offers":{"@type":"Offer","price":"86.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Sobremesas","hasMenuItem":[{"@type":"MenuItem","name":"Torta de frutas vermelhas","description":"Creme de baunilha do Cerrado e frutas da estação.","offers":{"@type":"Offer","price":"36.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Sorvete de baru","description":"Feito na casa.","offers":{"@type":"Offer","price":"28.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Para beber","hasMenuItem":[{"@type":"MenuItem","name":"Vinho da casa","description":"Tinto ou branco.","offers":{"@type":"Offer","price":"32.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Caipirinha de cagaita","offers":{"@type":"Offer","price":"30.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Suco de cajá","offers":{"@type":"Offer","price":"14.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Água mineral","description":"Com ou sem gás.","offers":{"@type":"Offer","price":"8.00","priceCurrency":"BRL"}}]}]}}</script>
 <style>
-:root{--fundo:#13241D;--texto:#EFE8DA;--suave:#A9B3A6;--p:#C9A96E;--sp:#13241D;--cartao:#1A2E25;--borda:#2C4237;--r:3px;--larg:880px;--ft:Optima, Candara, 'Gill Sans', 'Noto Sans', 'Segoe UI', sans-serif;--fx:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+:root{--pedido:#C9A96E;--a11y-cor:#C9A96E;--fundo:#13241D;--texto:#EFE8DA;--suave:#A9B3A6;--p:#C9A96E;--sp:#13241D;--cartao:#1A2E25;--borda:#2C4237;--r:3px;--larg:880px;--ft:Optima, Candara, 'Gill Sans', 'Noto Sans', 'Segoe UI', sans-serif;--fx:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--fundo);color:var(--texto);font:16px/1.5 var(--fx);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+body{background:var(--fundo);color:var(--texto);font:1rem/1.5 var(--fx);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 img{display:block;max-width:100%}
 a{color:inherit}
 .wrap{max-width:var(--larg);margin:0 auto;padding:0 16px}
@@ -25,7 +28,7 @@ a{color:inherit}
 .topo-txt{text-align:center;padding:calc(28px + env(safe-area-inset-top)) 16px 22px;max-width:var(--larg);margin:0 auto}
 .capa+.topo-txt{padding-top:0}
 .logo{width:88px;height:88px;object-fit:contain;margin:0 auto 14px;border-radius:50%}
-.capa+.topo-txt .logo{margin-top:-44px;background:var(--cartao);border:3px solid var(--fundo);padding:8px}
+.capa+.topo-txt .logo{margin-top:-44px;background:var(--cartao);border:3px solid var(--fundo);padding:8px;position:relative} /* sem position, a foto da capa (pintada depois do fundo do selo) cobria o círculo e o logo "flutuava" (Carne de Sol do Edu, 2026-11-17) */
 .capa+.topo-txt h1{margin-top:22px}
 h1{font:600 1.9rem/1.1 var(--ft)}
 .sub{color:var(--suave);margin-top:6px}
@@ -55,7 +58,7 @@ h1{font:600 1.9rem/1.1 var(--ft)}
 footer{text-align:center;color:var(--suave);font-size:.85rem;line-height:1.7;padding:28px 16px 32px}
 .barra-acao{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;gap:8px;padding:10px max(12px,calc((100% - var(--larg))/2 + 12px)) calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--fundo) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--borda)}
 .barra-acao a{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 10px;border-radius:var(--r);border:1.5px solid var(--p);color:var(--p);font-weight:700;font-size:.95rem;white-space:nowrap;text-decoration:none}
-.barra-acao a.p{flex:1.6 1 auto;background:var(--p);color:var(--sp)}
+.barra-acao a.p{flex:1.6 1 auto;background:var(--pedido);border-color:var(--pedido);color:var(--sp)} /* tema.pedido: o verde do WhatsApp quando o site usa verde nele */
 .barra-acao .ico{width:20px;height:20px}
 .barra-acao a:not(.p){min-width:0;white-space:normal;text-align:center;line-height:1.15}
 @media (max-width:380px){.barra-acao a{font-size:.88rem;padding:0 8px;gap:6px}.barra-acao a:not(.p) .ico{display:none}}

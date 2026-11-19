@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="text-scale" content="scale">
 <title>Modelo Café · cardápio digital MECT</title>
 <meta name="description" content="Cafés especiais, pão de queijo assado na hora, brunch e doces da casa.">
 <meta name="robots" content="noindex">
@@ -12,12 +13,14 @@
 <meta property="og:description" content="Cafés especiais, pão de queijo assado na hora, brunch e doces da casa.">
 <link rel="icon" href="/favicon.ico">
 
+
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Casa Moenda","address":"Rua Exemplo, 123, Setor Bueno, Goiânia – GO","hasMenu":{"@type":"Menu","hasMenuSection":[{"@type":"MenuSection","name":"Cafés","hasMenuItem":[{"@type":"MenuItem","name":"Espresso","description":"Curto e encorpado.","offers":{"@type":"Offer","price":"7.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Cappuccino","description":"Espresso, leite vaporizado e espuma.","offers":{"@type":"Offer","price":"11.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Coado na hora","description":"Método V60 com o grão do dia.","offers":{"@type":"Offer","price":"12.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Iced latte","description":"Espresso duplo, leite gelado e gelo.","offers":{"@type":"Offer","price":"16.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Para comer","hasMenuItem":[{"@type":"MenuItem","name":"Pão de queijo","description":"Seis unidades, assadas na hora.","offers":{"@type":"Offer","price":"12.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Croissant de manteiga","description":"Folhado na casa, servido morno.","offers":{"@type":"Offer","price":"13.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Tostex de queijo e presunto","description":"Pão de fermentação natural na chapa.","offers":{"@type":"Offer","price":"22.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Avocado toast","description":"Pão de fermentação natural, abacate temperado e ovo poché.","offers":{"@type":"Offer","price":"34.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Brunch","hasMenuItem":[{"@type":"MenuItem","name":"Bowl de iogurte","description":"Iogurte natural, granola da casa e frutas da estação.","offers":{"@type":"Offer","price":"26.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Panquecas com frutas","description":"Três panquecas, frutas vermelhas e mel.","offers":{"@type":"Offer","price":"32.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Salada da estação","description":"Folhas, legumes assados e castanhas.","offers":{"@type":"Offer","price":"32.00","priceCurrency":"BRL"}}]},{"@type":"MenuSection","name":"Doces","hasMenuItem":[{"@type":"MenuItem","name":"Bolo de chocolate","description":"Fatia, com ganache meio amargo.","offers":{"@type":"Offer","price":"14.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Tiramisù","description":"Mascarpone, café da casa e cacau.","offers":{"@type":"Offer","price":"22.00","priceCurrency":"BRL"}},{"@type":"MenuItem","name":"Brownie","description":"Com castanha-do-pará.","offers":{"@type":"Offer","price":"15.00","priceCurrency":"BRL"}}]}]}}</script>
 <style>
-:root{--fundo:#F3F6F4;--texto:#1E2A26;--suave:#5E6B66;--p:#2F6B4F;--sp:#FFFFFF;--cartao:#FFFFFF;--borda:#DCE4DF;--r:16px;--larg:560px;--ft:ui-rounded, 'SF Pro Rounded', 'Nunito', 'Segoe UI', system-ui, sans-serif;--fx:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+:root{--pedido:#2F6B4F;--a11y-cor:#2F6B4F;--fundo:#F3F6F4;--texto:#1E2A26;--suave:#5E6B66;--p:#2F6B4F;--sp:#FFFFFF;--cartao:#FFFFFF;--borda:#DCE4DF;--r:16px;--larg:560px;--ft:ui-rounded, 'SF Pro Rounded', 'Nunito', 'Segoe UI', system-ui, sans-serif;--fx:system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-body{background:var(--fundo);color:var(--texto);font:16px/1.5 var(--fx);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+body{background:var(--fundo);color:var(--texto);font:1rem/1.5 var(--fx);-webkit-font-smoothing:antialiased;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 img{display:block;max-width:100%}
 a{color:inherit}
 .wrap{max-width:var(--larg);margin:0 auto;padding:0 16px}
@@ -25,7 +28,7 @@ a{color:inherit}
 .topo-txt{text-align:center;padding:calc(28px + env(safe-area-inset-top)) 16px 22px;max-width:var(--larg);margin:0 auto}
 .capa+.topo-txt{padding-top:0}
 .logo{width:88px;height:88px;object-fit:contain;margin:0 auto 14px;border-radius:50%}
-.capa+.topo-txt .logo{margin-top:-44px;background:var(--cartao);border:3px solid var(--fundo);padding:8px}
+.capa+.topo-txt .logo{margin-top:-44px;background:var(--cartao);border:3px solid var(--fundo);padding:8px;position:relative} /* sem position, a foto da capa (pintada depois do fundo do selo) cobria o círculo e o logo "flutuava" (Carne de Sol do Edu, 2026-11-17) */
 .capa+.topo-txt h1{margin-top:22px}
 h1{font:600 1.9rem/1.1 var(--ft)}
 .sub{color:var(--suave);margin-top:6px}
@@ -55,7 +58,7 @@ h1{font:600 1.9rem/1.1 var(--ft)}
 footer{text-align:center;color:var(--suave);font-size:.85rem;line-height:1.7;padding:28px 16px 32px}
 .barra-acao{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;gap:8px;padding:10px max(12px,calc((100% - var(--larg))/2 + 12px)) calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--fundo) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--borda)}
 .barra-acao a{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 10px;border-radius:var(--r);border:1.5px solid var(--p);color:var(--p);font-weight:700;font-size:.95rem;white-space:nowrap;text-decoration:none}
-.barra-acao a.p{flex:1.6 1 auto;background:var(--p);color:var(--sp)}
+.barra-acao a.p{flex:1.6 1 auto;background:var(--pedido);border-color:var(--pedido);color:var(--sp)} /* tema.pedido: o verde do WhatsApp quando o site usa verde nele */
 .barra-acao .ico{width:20px;height:20px}
 .barra-acao a:not(.p){min-width:0;white-space:normal;text-align:center;line-height:1.15}
 @media (max-width:380px){.barra-acao a{font-size:.88rem;padding:0 8px;gap:6px}.barra-acao a:not(.p) .ico{display:none}}
@@ -64,12 +67,14 @@ a:focus-visible{outline:3px solid var(--p);outline-offset:2px}
 .cats a{margin-right:6px;border-radius:999px;background:var(--cartao);border:1px solid var(--borda);color:var(--texto)}
 .cat h2{font-weight:800;font-size:1.45rem}
 .itens{gap:0;margin-top:6px}
-.item{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--borda)}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--borda)}
 .item:last-child{border-bottom:0}
 .item .foto{order:2;width:92px;height:92px;object-fit:cover;border-radius:calc(var(--r) - 4px)}
-.item-txt{grid-template-areas:"nome" "desc" "tags" "preco";grid-template-columns:1fr}
-.preco{margin-top:8px;color:var(--p)}
-.var{margin-right:14px}.var small{font-weight:500;color:var(--suave)}
+.item-txt{grid-template-areas:"nome" "desc" "tags" "preco";grid-template-columns:minmax(0,1fr)}
+/* dois preços (meia e inteira) quebram em duas linhas em vez de empurrar a foto: com "1fr" e nowrap, a página
+   ficava com 463 px num celular de 390 (Carne de Sol do Edu, 2026-11-17) */
+.preco{margin-top:8px;color:var(--p);white-space:normal;display:flex;flex-wrap:wrap;gap:2px 14px}
+.var{white-space:nowrap}.var small{font-weight:500;color:var(--suave)}
 </style>
 <style>.demo{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 14px;padding:8px 16px;background:#0b1033;color:#fff;font:600 13px/1.4 system-ui,sans-serif;text-align:center}.demo a{color:#9cc2ff}</style>
 </head>

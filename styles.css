@@ -461,3 +461,48 @@ main > .secao:last-child { padding-bottom: 64px; }
   .modelo__tela iframe { pointer-events: none; }
   .modelo__toque { display: block; }
 }
+
+/* diagnóstico grátis (/diagnostico/, 2026-11-19): o scan roda de verdade; cada linha muda quando a consulta responde */
+.scan__form { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.scan__form label { flex-basis: 100%; font-weight: 700; color: var(--tinta); }
+.scan__form input, .scan__campos input { flex: 1 1 240px; min-width: 0; font: inherit; font-size: 1.1rem; padding: .7em 1.1em; border: 2px solid var(--borda); border-radius: 999px; background: #fff; color: var(--tinta); }
+.scan__form input:focus, .scan__campos input:focus { border-color: var(--azul); }
+.scan__form button { font: inherit; cursor: pointer; }
+.scan__form button:disabled { opacity: .6; cursor: progress; }
+.scan__erro:not(:empty) { flex-basis: 100%; color: #b42318; font-weight: 700; }
+.scan__sem { flex-basis: 100%; font-size: .95rem; }
+.scan__sem a { color: var(--azul); font-weight: 700; }
+.scan__res { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; scroll-margin-top: 100px; }
+.scan__res[hidden] { display: none; }
+.scan__res h2 { font-weight: 900; font-size: 1.4rem; }
+.scan__alvo { color: var(--azul); overflow-wrap: anywhere; }
+.scan__res h3 { font-weight: 900; font-size: 1.15rem; margin-top: 28px; }
+.scan__res h3 + p { margin-top: 4px; }
+.scan__tela { position: sticky; top: 100px; aspect-ratio: 412 / 823; border: 10px solid var(--tinta); border-radius: 34px; overflow: hidden; background: repeating-linear-gradient(#eef4ff 0 26px, #fff 26px 44px); box-shadow: var(--sombra); }
+.scan__tela img { width: 100%; height: 100%; object-fit: cover; object-position: top; animation: scan-aparece .6s; }
+.scan__linha { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--azul); box-shadow: 0 0 18px 6px rgba(21, 96, 232, .45); opacity: 0; }
+.rodando .scan__linha { opacity: 1; animation: scan-varre 1.8s ease-in-out infinite alternate; }
+.scan__passos, .scan__completa { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px; }
+.scan__passos li, .scan__completa li { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: 12px; }
+.scan__passos li::before, .scan__completa li::before { content: ""; grid-row: span 2; box-sizing: border-box; width: 24px; height: 24px; margin-top: 1px; border-radius: 50%; border: 2px solid var(--borda); display: grid; place-items: center; font: 900 13px/1 Satoshi, system-ui, sans-serif; color: #fff; }
+.scan__completa li::before { border-radius: 6px; } /* caixa vazia: isso é a análise completa, feita por MECT */
+.scan__passos strong, .scan__completa strong { color: var(--tinta); }
+.scan__passos small, .scan__completa small { font-size: .95rem; }
+.scan__passos [data-estado="rodando"]::before { border-color: var(--azul-cl); border-top-color: var(--azul); animation: scan-gira .8s linear infinite; }
+.scan__passos [data-estado="ok"]::before { content: "✓"; background: #12a150; border-color: #12a150; }
+.scan__passos [data-estado="aviso"]::before { content: "!"; background: var(--laranja); border-color: var(--laranja); }
+.scan__passos [data-estado="falha"]::before { content: "–"; background: #9aa3b8; border-color: #9aa3b8; }
+.scan__campos { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 16px; }
+.scan__campos label { flex: 1 1 200px; display: grid; gap: 6px; font-weight: 700; color: var(--tinta); }
+@keyframes scan-varre { to { top: calc(100% - 3px); } }
+@keyframes scan-gira { to { transform: rotate(1turn); } }
+@keyframes scan-aparece { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .rodando .scan__linha { animation: none; top: 50%; }
+  .scan__passos [data-estado="rodando"]::before { animation: none; border-style: dotted; border-color: var(--azul); }
+  .scan__tela img { animation: none; }
+}
+@media (max-width: 47.5em) {
+  .scan__res { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .scan__tela { position: static; width: 150px; margin: 0 auto; border-width: 7px; border-radius: 24px; }
+}

@@ -1,0 +1,154 @@
+<!--
+url: /diagnostico/
+titulo: Diagnóstico grátis do seu site — MECT Tecnologia
+descricao: Digite o endereço do seu site e veja na hora o print no celular, a velocidade, o registro do domínio e como ele aparece no Google. Grátis, sem cadastro.
+-->
+<section class="pagina-topo">
+  <div class="pagina-topo__in">
+    <nav class="trilha" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">›</span><a href="/produtos/#presenca-online">Presença Online</a><span aria-hidden="true">›</span><span aria-current="page">Diagnóstico</span></nav>
+    <h1>Seu site, analisado em 30 segundos</h1>
+    <p>Digite o endereço do seu site. MECT confere o domínio, tira um print no celular e mede a velocidade, na hora e de graça.</p>
+  </div>
+</section>
+
+<section class="secao secao--interna scan">
+  <form class="bloco scan__form" id="scan-form" novalidate>
+    <label for="scan-site">Endereço do seu site</label>
+    <input id="scan-site" name="site" type="text" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" placeholder="seusite.com.br" required>
+    <button class="bt bt--azul" type="submit">Analisar <span aria-hidden="true">→</span></button>
+    <p class="scan__erro" id="scan-erro" role="alert"></p>
+    <p class="scan__sem">Não tem site? <a href="https://wa.me/5562994050744?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20site%20e%20quero%20a%20an%C3%A1lise%20completa%20da%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener">Peça a análise completa pelo WhatsApp</a></p>
+  </form>
+
+  <div class="scan__res" id="scan-res" hidden>
+    <div class="scan__tela" aria-hidden="true"><img id="scan-print" alt="" hidden><span class="scan__linha"></span></div>
+    <div class="bloco">
+      <h2 aria-live="polite"><span id="scan-titulo">Analisando</span> <span class="scan__alvo" id="scan-alvo"></span></h2>
+      <ol class="scan__passos" aria-live="polite">
+        <li data-p="registro"><strong>Registro do domínio</strong><small></small></li>
+        <li data-p="dns"><strong>Onde o domínio está</strong><small></small></li>
+        <li data-p="print"><strong>Print do site no celular</strong><small></small></li>
+        <li data-p="velocidade"><strong>Velocidade no celular</strong><small></small></li>
+        <li data-p="https"><strong>Cadeado de site seguro</strong><small></small></li>
+        <li data-p="google"><strong>Título e descrição no Google</strong><small></small></li>
+        <li data-p="indexa"><strong>Liberado para aparecer no Google</strong><small></small></li>
+      </ol>
+      <h3>Análise completa</h3>
+      <p>Feita por MECT, comparando você com os concorrentes da sua cidade:</p>
+      <ul class="scan__completa">
+        <li><strong>Google Maps</strong><small>em quantas de 20 buscas da cidade você aparece</small></li>
+        <li><strong>Ficha no Google e avaliações</strong><small>nota, quantidade e respostas</small></li>
+        <li><strong>5 ou 6 concorrentes lado a lado</strong><small>Google, site, Instagram e avaliações</small></li>
+        <li><strong>ChatGPT</strong><small>10 perguntas que os seus clientes fazem, e quem ele indica</small></li>
+        <li><strong>Buscas e dúvidas do Google</strong><small>o que as pessoas procuram sobre o seu ramo</small></li>
+        <li><strong>Instagram</strong><small>seguidores, posts e frequência</small></li>
+        <li><strong>Avaliações fora do Google</strong><small>Doctoralia, TripAdvisor, iFood e outros</small></li>
+        <li><strong>Público da cidade</strong><small>dados do IBGE</small></li>
+        <li><strong>Nota de 0 a 100 e plano de 90 dias</strong><small>o que fazer primeiro</small></li>
+      </ul>
+      <div class="scan__campos">
+        <label>Ramo <input id="scan-ramo" type="text" placeholder="ex.: ortopedia, pousada"></label>
+        <label>Cidade <input id="scan-cidade" type="text" autocomplete="address-level2" placeholder="ex.: Goiânia"></label>
+      </div>
+      <a class="bt bt--azul" id="scan-whats" href="https://wa.me/5562994050744" target="_blank" rel="noopener">Quero a análise completa <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+  <p class="nota">A consulta usa dados públicos do Registro.br e do Google PageSpeed. MECT não guarda o que você digita.</p>
+</section>
+
+<script>
+// Scan do site (2026-11-19): RDAP (registro do domínio) e PageSpeed do Google (print, velocidade, título e descrição),
+// tudo do navegador, sem servidor. Teste: scripts/testar-site.mjs (com as duas APIs simuladas).
+// Chave do PageSpeed: projeto MectDev do Google Cloud (conta marcosedir07), "PageSpeed - site MECT (diagnostico)", só aceita
+// pedidos de https://mect.com.br e http://localhost:4190 e só a API do PageSpeed. Grátis, sem cartão. Sem chave o Google recusa (429).
+const PSI_CHAVE = 'AIzaSyAKZYlSnCM__lhQA1Pnb9FUipvyZXiM25M';
+const $ = (s) => document.querySelector(s);
+const res = $('#scan-res'), espera = (ms) => new Promise((r) => setTimeout(r, ms));
+const DNS = [['cloudflare', 'Cloudflare'], ['wixdns', 'Wix'], ['dns-parking', 'Hostinger'], ['hostinger', 'Hostinger'], ['locaweb', 'Locaweb'],
+  ['hostgator', 'HostGator'], ['domaincontrol', 'GoDaddy'], ['dns.br', 'Registro.br'], ['awsdns', 'Amazon'], ['google', 'Google'],
+  ['kinghost', 'KingHost'], ['umbler', 'Umbler'], ['uolhost', 'UOL Host'], ['squarespace', 'Squarespace'], ['vercel', 'Vercel'],
+  ['netlify', 'Netlify'], ['registrar-servers', 'Namecheap']];
+let alvo = '';
+
+function passo(id, estado, txt = '') {
+  const li = res.querySelector(`[data-p="${id}"]`);
+  li.dataset.estado = estado; li.querySelector('small').textContent = txt;
+}
+
+async function dominio(d) {
+  try {
+    const r = await fetch('https://rdap.org/domain/' + d, { signal: AbortSignal.timeout(20000) });
+    if (!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    const data = (a) => j.events?.find((e) => e.eventAction === a)?.eventDate;
+    const reg = data('registration'), venc = data('expiration');
+    const mes = (x) => new Date(x).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
+    const dias = venc ? Math.round((new Date(venc) - Date.now()) / 864e5) : null;
+    if (dias !== null && dias < 0) passo('registro', 'aviso', `venceu em ${mes(venc)}: renove para não perder o domínio`);
+    else if (dias !== null && dias < 60) passo('registro', 'aviso', `vence em ${dias} dias: renove para o site não sair do ar`);
+    else passo('registro', 'ok', [reg && `desde ${new Date(reg).getFullYear()}`, venc && `vence em ${mes(venc)}`].filter(Boolean).join(' · ') || 'registrado');
+    const ns = (j.nameservers ?? []).map((n) => n.ldhName.toLowerCase());
+    const onde = DNS.find(([k]) => ns.some((n) => n.includes(k)))?.[1] ?? ns[0];
+    passo('dns', onde ? 'ok' : 'falha', onde ? `DNS em ${onde}` : 'sem dado');
+  } catch {
+    passo('registro', 'falha', 'não deu para consultar agora'); passo('dns', 'falha', 'não deu para consultar agora');
+  }
+}
+
+async function pagina(host) {
+  try {
+    const u = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
+    u.search = new URLSearchParams([['url', 'https://' + host], ['strategy', 'mobile'], ['category', 'performance'],
+      ['category', 'seo'], ['locale', 'pt_BR'], ...(PSI_CHAVE ? [['key', PSI_CHAVE]] : [])]);
+    const r = await fetch(u, { signal: AbortSignal.timeout(90000) });
+    if (!r.ok) throw new Error(r.status === 400 ? 'abrir' : 'google'); // 400 = o Google não conseguiu abrir o endereço
+    const lh = (await r.json()).lighthouseResult, a = lh.audits;
+    const resultados = {
+      print: () => { const img = $('#scan-print'); img.src = a['final-screenshot'].details.data; img.hidden = false; return ['ok', 'tirado agora']; },
+      velocidade: () => {
+        const n = Math.round(lh.categories.performance.score * 100), lcp = a['largest-contentful-paint']?.displayValue;
+        return [n >= 90 ? 'ok' : 'aviso', `${n} de 100${lcp ? ` · abre em ${lcp}` : ''}${n < 50 ? ' · lento' : ''}`];
+      },
+      https: () => (lh.finalDisplayedUrl ?? lh.finalUrl ?? '').startsWith('https:') ? ['ok', 'tem'] : ['aviso', 'falta: o navegador avisa "não seguro"'],
+      google: () => {
+        const t = a['document-title']?.score === 1, d = a['meta-description']?.score === 1;
+        return t && d ? ['ok', 'tem os dois'] : ['aviso', !t && !d ? 'faltam os dois' : t ? 'falta a descrição' : 'falta o título'];
+      },
+      indexa: () => a['is-crawlable']?.score === 1 ? ['ok', 'sim'] : ['aviso', 'não: o site pede para o Google não mostrar'],
+    };
+    // os resultados chegam juntos; um por vez só para dar para ler
+    for (const [id, f] of Object.entries(resultados)) {
+      let e; try { e = f(); } catch { e = ['falha', 'não deu para conferir']; }
+      passo(id, ...e); await espera(350);
+    }
+  } catch (err) {
+    const msg = err.message === 'abrir' ? 'não conseguimos abrir o site: confira o endereço' : 'o Google não respondeu agora';
+    for (const id of ['print', 'velocidade', 'https', 'google', 'indexa']) passo(id, 'falha', msg);
+  }
+}
+
+$('#scan-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const host = $('#scan-site').value.trim().toLowerCase().replace(/^https?:\/\//, '').split(/[/?#]/)[0].replace(/\.$/, '');
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(host)) { $('#scan-erro').textContent = 'Digite o endereço do site, como seusite.com.br'; return; }
+  $('#scan-erro').textContent = '';
+  const bt = e.target.querySelector('button'); bt.disabled = true;
+  alvo = host; $('#scan-alvo').textContent = host; $('#scan-titulo').textContent = 'Analisando';
+  $('#scan-print').hidden = true; $('#scan-print').removeAttribute('src');
+  res.hidden = false; res.classList.add('rodando');
+  res.querySelectorAll('[data-p]').forEach((li) => passo(li.dataset.p, 'rodando', 'conferindo…'));
+  res.scrollIntoView({ block: 'start' });
+  await Promise.all([dominio(host.replace(/^www\./, '')), pagina(host)]);
+  res.classList.remove('rodando'); $('#scan-titulo').textContent = 'Resultado de'; bt.disabled = false;
+});
+
+// a mensagem do WhatsApp leva o resultado, para a análise completa começar dele
+$('#scan-whats').addEventListener('click', (e) => {
+  const linhas = [...res.querySelectorAll('[data-estado="ok"], [data-estado="aviso"]')].filter((li) => li.dataset.p !== 'print')
+    .map((li) => `- ${li.querySelector('strong').textContent}: ${li.querySelector('small').textContent}`);
+  const ramo = $('#scan-ramo').value.trim(), cidade = $('#scan-cidade').value.trim();
+  const msg = ['Olá! Fiz o diagnóstico do meu site no site MECT e quero a análise completa.', `Site: ${alvo}`,
+    ramo ? `Ramo: ${ramo}` : null, cidade ? `Cidade: ${cidade}` : null, linhas.length ? '' : null, ...linhas].filter((x) => x !== null).join('\n');
+  e.currentTarget.href = 'https://wa.me/5562994050744?text=' + encodeURIComponent(msg);
+});
+</script>
