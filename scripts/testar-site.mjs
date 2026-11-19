@@ -96,9 +96,13 @@ for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
     { eventAction: 'expiration', eventDate: vence }], nameservers: [{ ldhName: 'NS1.WIXDNS.NET' }] } }));
   const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
   await p.route('https://www.googleapis.com/pagespeedonline/**', (r) => r.fulfill({ json: { lighthouseResult: {
-    finalDisplayedUrl: 'https://exemplo.com.br/', categories: { performance: { score: 0.42 } },
+    finalDisplayedUrl: 'https://exemplo.com.br/', categories: { performance: { score: 0.42 }, accessibility: { score: 0.68 } },
     audits: { 'final-screenshot': { details: { data: png } }, 'largest-contentful-paint': { displayValue: '4,2 s' },
-      'document-title': { score: 1 }, 'meta-description': { score: 0 }, 'is-crawlable': { score: 1 } } } } }));
+      'document-title': { score: 1 }, 'meta-description': { score: 0 }, 'is-crawlable': { score: 1 },
+      'image-alt': { score: 0, details: { items: [{}, {}, {}] } },
+      // o Analytics só na lista de scripts: a detecção precisa olhar as duas listas
+      'network-requests': { details: { items: [{ url: 'https://exemplo.com.br/' }, { url: 'https://exemplo.com.br/app.js' }] } },
+      'script-treemap-data': { details: { nodes: [{ name: 'https://www.googletagmanager.com/gtag/js?id=G-X' }] } } } } } }));
   await p.goto(url + 'diagnostico/', { waitUntil: 'networkidle' });
   await p.fill('#scan-site', 'abc'); await p.click('#scan-form button');
   ok((await p.textContent('#scan-erro')).includes('Digite'), 'diagnóstico: endereço inválido não avisa');
@@ -106,11 +110,12 @@ for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
   await p.waitForFunction(() => document.querySelector('#scan-titulo').textContent === 'Resultado de', null, { timeout: 15000 }).catch(() => {});
   const passos = await p.$$eval('[data-p]', (ls) => Object.fromEntries(ls.map((l) => [l.dataset.p, `${l.dataset.estado} ${l.querySelector('small').textContent}`])));
   const espera = { registro: /^aviso vence em 2\d dias/, dns: /^ok DNS em Wix$/, print: /^ok/, velocidade: /^aviso 42 de 100 · abre em 4,2 s · lento$/,
-    https: /^ok/, google: /^aviso falta a descrição$/, indexa: /^ok/ };
+    https: /^ok/, google: /^aviso falta a descrição$/, indexa: /^ok/, acessivel: /^aviso 68 de 100/, fotos: /^aviso 3 fotos sem descrição/,
+    libras: /^aviso não encontramos/, visitas: /^ok Google Analytics$/ };
   for (const [k, re] of Object.entries(espera)) ok(re.test(passos[k]), `diagnóstico: passo ${k} = "${passos[k]}"`);
   ok(await p.isVisible('#scan-print'), 'diagnóstico: print não aparece');
   ok((await p.textContent('#scan-alvo')) === 'www.exemplo.com.br', 'diagnóstico: endereço não foi limpo');
-  ok((await p.textContent('#scan-conta')) === '7 de 7' && await p.isVisible('.scan__selo'), 'diagnóstico: progresso não fecha em 7 de 7 com o selo');
+  ok((await p.textContent('#scan-conta')) === '11 de 11' && await p.isVisible('.scan__selo'), 'diagnóstico: progresso não fecha em 11 de 11 com o selo');
   // janela de desbloqueio: não envia sem nome, ramo e cidade; envia com as respostas e o resultado do scan
   await p.evaluate(() => { window.open = (u) => { window.__wa = decodeURIComponent(u); }; });
   await p.click('.scan__cadeado [data-desbloquear]');

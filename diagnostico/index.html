@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fontes/satoshi-900.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fontes/satoshi-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=0f048a81">
+<link rel="stylesheet" href="/styles.css?v=4bdfaaa0">
 <script>document.documentElement.classList.add('js')</script>
 <script type="speculationrules">
 {"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}
@@ -90,7 +90,7 @@
     </div>
     <div class="bloco">
       <h2 aria-live="polite"><span id="scan-titulo">Analisando</span> <span class="scan__alvo" id="scan-alvo"></span></h2>
-      <div class="scan__progresso"><span class="scan__barra"><i id="scan-barra"></i></span><small id="scan-conta">0 de 7</small></div>
+      <div class="scan__progresso"><span class="scan__barra"><i id="scan-barra"></i></span><small id="scan-conta">0 de 11</small></div>
       <ol class="scan__passos" aria-live="polite">
         <li data-p="registro"><strong>Registro do domínio</strong><small></small></li>
         <li data-p="dns"><strong>Onde o domínio está</strong><small></small></li>
@@ -99,6 +99,10 @@
         <li data-p="https"><strong>Cadeado de site seguro</strong><small></small></li>
         <li data-p="google"><strong>Título e descrição no Google</strong><small></small></li>
         <li data-p="indexa"><strong>Liberado para aparecer no Google</strong><small></small></li>
+        <li data-p="acessivel"><strong>Acessibilidade</strong><small></small></li>
+        <li data-p="fotos"><strong>Fotos com descrição</strong><small></small></li>
+        <li data-p="libras"><strong>Acessibilidade em Libras</strong><small></small></li>
+        <li data-p="visitas"><strong>Mede as visitas do site</strong><small></small></li>
       </ol>
       <!-- análise completa sem a lista do que ela faz (pedido do dono, 2026-11-19: não dar ideia para a concorrência).
            As linhas borradas são só desenho, sem texto. "15 critérios" = os critérios da nota (skill diagnostico-presenca, nota.py). -->
@@ -178,10 +182,14 @@ async function pagina(host) {
   try {
     const u = new URL('https://www.googleapis.com/pagespeedonline/v5/runPagespeed');
     u.search = new URLSearchParams([['url', 'https://' + host], ['strategy', 'mobile'], ['category', 'performance'],
-      ['category', 'seo'], ['locale', 'pt_BR'], ...(PSI_CHAVE ? [['key', PSI_CHAVE]] : [])]);
+      ['category', 'seo'], ['category', 'accessibility'], ['locale', 'pt_BR'], ...(PSI_CHAVE ? [['key', PSI_CHAVE]] : [])]);
     const r = await fetch(u, { signal: AbortSignal.timeout(90000) });
     if (!r.ok) throw new Error(r.status === 400 ? 'abrir' : 'google'); // 400 = o Google não conseguiu abrir o endereço
     const lh = (await r.json()).lighthouseResult, a = lh.audits;
+    // o que a página carregou: lista de arquivos e lista de scripts (uma cobre a outra se vier cortada).
+    // Só vê o que carrega ao abrir: VLibras ou Analytics que esperam um clique ficam de fora, daí o "não encontramos".
+    const urls = [...(a['network-requests']?.details?.items ?? []).map((i) => i.url), ...(a['script-treemap-data']?.details?.nodes ?? []).map((n) => n.name ?? '')];
+    const carregou = (re) => urls.some((x) => re.test(x));
     const resultados = {
       print: () => { const img = $('#scan-print'); img.src = a['final-screenshot'].details.data; img.hidden = false; return ['ok', 'tirado agora']; },
       velocidade: () => {
@@ -194,15 +202,31 @@ async function pagina(host) {
         return t && d ? ['ok', 'tem os dois'] : ['aviso', !t && !d ? 'faltam os dois' : t ? 'falta a descrição' : 'falta o título'];
       },
       indexa: () => a['is-crawlable']?.score === 1 ? ['ok', 'sim'] : ['aviso', 'não: o site pede para o Google não mostrar'],
+      acessivel: () => {
+        const n = Math.round(lh.categories.accessibility.score * 100);
+        return [n >= 90 ? 'ok' : 'aviso', `${n} de 100${n < 90 ? ' · barreiras para quem tem deficiência' : ''}`];
+      },
+      fotos: () => {
+        const f = a['image-alt'];
+        if (f.scoreDisplayMode === 'notApplicable') return ['ok', 'nenhuma foto para descrever'];
+        const n = f.details?.items?.length ?? 0;
+        return n ? ['aviso', `${n} ${n > 1 ? 'fotos' : 'foto'} sem descrição para o Google e para cegos`] : ['ok', 'todas têm'];
+      },
+      libras: () => carregou(/vlibras/i) ? ['ok', 'tem tradução em Libras'] : ['aviso', 'não encontramos: quem é surdo fica sem tradução'],
+      visitas: () => {
+        const tem = [carregou(/gtag\/js|google-analytics\.com|analytics\.google\.com/) && 'Google Analytics',
+          carregou(/googletagmanager\.com\/gtm\.js/) && 'Tag Manager', carregou(/connect\.facebook\.net/) && 'Pixel da Meta', carregou(/cloudflareinsights\.com/) && 'Cloudflare Web Analytics'].filter(Boolean);
+        return tem.length ? ['ok', tem.join(', ')] : ['aviso', 'não encontramos Google Analytics nem Pixel da Meta'];
+      },
     };
     // os resultados chegam juntos; um por vez só para dar para ler
     for (const [id, f] of Object.entries(resultados)) {
       let e; try { e = f(); } catch { e = ['falha', 'não deu para conferir']; }
-      passo(id, ...e); await espera(350);
+      passo(id, ...e); await espera(250);
     }
   } catch (err) {
     const msg = err.message === 'abrir' ? 'não conseguimos abrir o site: confira o endereço' : 'o Google não respondeu agora';
-    for (const id of ['print', 'velocidade', 'https', 'google', 'indexa']) passo(id, 'falha', msg);
+    for (const id of ['print', 'velocidade', 'https', 'google', 'indexa', 'acessivel', 'fotos', 'libras', 'visitas']) passo(id, 'falha', msg);
   }
 }
 
@@ -261,6 +285,9 @@ $('#scan-pedido').addEventListener('submit', (e) => {
 </nav>
 
 <script src="/main.js?v=b1fabf46" defer></script>
+<!-- Cloudflare Web Analytics (2026-11-19): conta visitas sem cookies; site "mect.com.br" na conta Cloudflare do dono (o site não passa
+     pelo proxy da Cloudflare, por isso o código vai aqui e não é injetado sozinho). Citado em /privacidade/. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "81ecb43e3b3b4547a3c49e3bd47be676"}'></script>
 <!-- VLibras: tradução em Libras, do governo federal, gratuito (2026-11-16). Uns 18 KB ao abrir; o avatar só baixa no clique.
      A versão 7 se monta sozinha (botão em #vlibras-access-wrapper, avatar em #vlibras-app-root): o <div vw> e o
      new VLibras.Widget() do snippet antigo não fazem mais nada. O painel de acessibilidade não mexe em #vlibras*. -->

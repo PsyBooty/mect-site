@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="text-scale" content="scale">
 <title>Privacidade — MECT Tecnologia</title>
-<meta name="description" content="Como o site da MECT trata os seus dados: não coleta nada, não usa cookies de rastreamento nem de publicidade, e o que fica no seu navegador.">
+<meta name="description" content="Como o site da MECT trata os seus dados: conta as visitas sem cookies e sem identificar você, não usa cookies de rastreamento nem de publicidade, e o que fica no seu navegador.">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/icone-180.png">
@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://mect.com.br/privacidade/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Privacidade — MECT Tecnologia">
-<meta property="og:description" content="Como o site da MECT trata os seus dados: não coleta nada, não usa cookies de rastreamento nem de publicidade, e o que fica no seu navegador.">
+<meta property="og:description" content="Como o site da MECT trata os seus dados: conta as visitas sem cookies e sem identificar você, não usa cookies de rastreamento nem de publicidade, e o que fica no seu navegador.">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="MECT Tecnologia">
 <meta property="og:image" content="https://mect.com.br/assets/img/og.jpg">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" href="/assets/fontes/satoshi-900.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fontes/satoshi-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=0f048a81">
+<link rel="stylesheet" href="/styles.css?v=4bdfaaa0">
 <script>document.documentElement.classList.add('js')</script>
 <script type="speculationrules">
 {"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}
@@ -74,7 +74,11 @@
 <section class="secao secao--interna">
   <div class="bloco revela">
     <h2>O que o site coleta</h2>
-    <p>Nada. Não há cadastro nem formulário, e o site não usa cookies de rastreamento nem de publicidade.</p>
+    <p>Só estatísticas de visita, sem identificar quem visita: o Cloudflare Web Analytics conta quantas pessoas abrem cada página, de qual país, com qual tipo de aparelho e quanto a página demora para carregar. Ele não usa cookies nem guarda nada no seu navegador. Não há cadastro, e o site não usa cookies de rastreamento nem de publicidade.</p>
+  </div>
+  <div class="bloco revela">
+    <h2>Diagnóstico do site</h2>
+    <p>Na página <a href="/diagnostico/">Diagnóstico</a>, o endereço que você digita vai para consultas públicas do Registro.br e do Google PageSpeed, que devolvem os dados do site. As respostas da janela "Desbloquear" só montam a mensagem que você mesmo envia pelo WhatsApp. A MECT não guarda nada disso no site.</p>
   </div>
   <div class="bloco revela">
     <h2>O que fica no seu navegador</h2>
@@ -94,7 +98,7 @@
   </div>
   <div class="bloco revela">
     <h2>Seus direitos</h2>
-    <p>Pela Lei Geral de Proteção de Dados (LGPD, art. 18), você pode pedir acesso, correção ou exclusão dos seus dados. Fale com a gente pelo <a href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20privacidade%20no%20site%20da%20MECT." target="_blank" rel="noopener">WhatsApp</a> ou pelo e-mail <a href="mailto:contato@mect.com.br">contato@mect.com.br</a>. Esta página foi atualizada em 17 de novembro de 2026.</p>
+    <p>Pela Lei Geral de Proteção de Dados (LGPD, art. 18), você pode pedir acesso, correção ou exclusão dos seus dados. Fale com a gente pelo <a href="https://wa.me/5562994050744?text=Ol%C3%A1%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20privacidade%20no%20site%20da%20MECT." target="_blank" rel="noopener">WhatsApp</a> ou pelo e-mail <a href="mailto:contato@mect.com.br">contato@mect.com.br</a>. Esta página foi atualizada em 19 de novembro de 2026.</p>
   </div>
 </section>
 </main>
@@ -122,6 +126,9 @@
 </nav>
 
 <script src="/main.js?v=b1fabf46" defer></script>
+<!-- Cloudflare Web Analytics (2026-11-19): conta visitas sem cookies; site "mect.com.br" na conta Cloudflare do dono (o site não passa
+     pelo proxy da Cloudflare, por isso o código vai aqui e não é injetado sozinho). Citado em /privacidade/. -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "81ecb43e3b3b4547a3c49e3bd47be676"}'></script>
 <!-- VLibras: tradução em Libras, do governo federal, gratuito (2026-11-16). Uns 18 KB ao abrir; o avatar só baixa no clique.
      A versão 7 se monta sozinha (botão em #vlibras-access-wrapper, avatar em #vlibras-app-root): o <div vw> e o
      new VLibras.Widget() do snippet antigo não fazem mais nada. O painel de acessibilidade não mexe em #vlibras*. -->
