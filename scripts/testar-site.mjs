@@ -110,10 +110,19 @@ for (const largura of [1280, 1001, 390]) for (const caminho of PAGINAS) {
   for (const [k, re] of Object.entries(espera)) ok(re.test(passos[k]), `diagnóstico: passo ${k} = "${passos[k]}"`);
   ok(await p.isVisible('#scan-print'), 'diagnóstico: print não aparece');
   ok((await p.textContent('#scan-alvo')) === 'www.exemplo.com.br', 'diagnóstico: endereço não foi limpo');
-  await p.fill('#scan-cidade', 'Goiânia');
-  const wa = await p.$eval('#scan-whats', (a) => { a.addEventListener('click', (e) => e.preventDefault()); a.click(); return decodeURIComponent(a.href); });
-  ok(wa.includes('Site: www.exemplo.com.br') && wa.includes('Cidade: Goiânia') && !wa.includes('Ramo:') && wa.includes('- Velocidade no celular: 42 de 100'),
-    `diagnóstico: mensagem do WhatsApp sem o resultado: ${wa}`);
+  ok((await p.textContent('#scan-conta')) === '7 de 7' && await p.isVisible('.scan__selo'), 'diagnóstico: progresso não fecha em 7 de 7 com o selo');
+  // janela de desbloqueio: não envia sem nome, ramo e cidade; envia com as respostas e o resultado do scan
+  await p.evaluate(() => { window.open = (u) => { window.__wa = decodeURIComponent(u); }; });
+  await p.click('.scan__cadeado [data-desbloquear]');
+  ok(await p.isVisible('#scan-janela'), 'diagnóstico: Desbloquear não abre a janela');
+  await p.click('#scan-pedido [type=submit]');
+  ok(await p.isVisible('#scan-janela') && !(await p.evaluate(() => window.__wa)), 'diagnóstico: enviou sem os campos obrigatórios');
+  await p.fill('[data-rotulo="Nome"]', 'Clínica Exemplo'); await p.fill('[data-rotulo="Ramo"]', 'ortopedia');
+  await p.fill('[data-rotulo="Cidade"]', 'Goiânia, Setor Bueno'); await p.click('#scan-pedido [type=submit]');
+  const wa = await p.evaluate(() => window.__wa ?? '');
+  ok(wa.includes('Site: www.exemplo.com.br') && wa.includes('Nome: Clínica Exemplo') && wa.includes('Cidade: Goiânia, Setor Bueno')
+    && !wa.includes('Instagram:') && wa.includes('- Velocidade no celular: 42 de 100'), `diagnóstico: mensagem do WhatsApp errada: ${wa}`);
+  ok(!(await p.isVisible('#scan-janela')), 'diagnóstico: a janela não fecha depois de enviar');
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'diagnóstico: rolagem lateral com o resultado');
   await p.close();
 }

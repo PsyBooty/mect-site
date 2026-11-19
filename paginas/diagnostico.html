@@ -17,13 +17,21 @@ descricao: Digite o endereço do seu site e veja na hora o print no celular, a v
     <input id="scan-site" name="site" type="text" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" placeholder="seusite.com.br" required>
     <button class="bt bt--azul" type="submit">Analisar <span aria-hidden="true">→</span></button>
     <p class="scan__erro" id="scan-erro" role="alert"></p>
-    <p class="scan__sem">Não tem site? <a href="https://wa.me/5562994050744?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20site%20e%20quero%20a%20an%C3%A1lise%20completa%20da%20minha%20presen%C3%A7a%20digital." target="_blank" rel="noopener">Peça a análise completa pelo WhatsApp</a></p>
+    <p class="scan__sem">Não tem site? <button class="scan__link" type="button" data-desbloquear>Peça a análise completa</button></p>
   </form>
 
   <div class="scan__res" id="scan-res" hidden>
-    <div class="scan__tela" aria-hidden="true"><img id="scan-print" alt="" hidden><span class="scan__linha"></span></div>
+    <div class="scan__mira" aria-hidden="true">
+      <div class="scan__tela">
+        <div class="scan__esqueleto"><i class="e-topo"></i><i class="e-tit"></i><i class="e-tit e-curto"></i><i></i><i class="e-curto"></i><i class="e-bt"></i><i class="e-img"></i><i></i><i></i><i class="e-curto"></i></div>
+        <img id="scan-print" alt="" hidden>
+        <span class="scan__feixe"></span>
+      </div>
+      <span class="scan__selo">✓ Scan concluído</span>
+    </div>
     <div class="bloco">
       <h2 aria-live="polite"><span id="scan-titulo">Analisando</span> <span class="scan__alvo" id="scan-alvo"></span></h2>
+      <div class="scan__progresso"><span class="scan__barra"><i id="scan-barra"></i></span><small id="scan-conta">0 de 7</small></div>
       <ol class="scan__passos" aria-live="polite">
         <li data-p="registro"><strong>Registro do domínio</strong><small></small></li>
         <li data-p="dns"><strong>Onde o domínio está</strong><small></small></li>
@@ -33,26 +41,36 @@ descricao: Digite o endereço do seu site e veja na hora o print no celular, a v
         <li data-p="google"><strong>Título e descrição no Google</strong><small></small></li>
         <li data-p="indexa"><strong>Liberado para aparecer no Google</strong><small></small></li>
       </ol>
-      <h3>Análise completa</h3>
-      <p>Feita por MECT, comparando você com os concorrentes da sua cidade:</p>
-      <ul class="scan__completa">
-        <li><strong>Google Maps</strong><small>em quantas de 20 buscas da cidade você aparece</small></li>
-        <li><strong>Ficha no Google e avaliações</strong><small>nota, quantidade e respostas</small></li>
-        <li><strong>5 ou 6 concorrentes lado a lado</strong><small>Google, site, Instagram e avaliações</small></li>
-        <li><strong>ChatGPT</strong><small>10 perguntas que os seus clientes fazem, e quem ele indica</small></li>
-        <li><strong>Buscas e dúvidas do Google</strong><small>o que as pessoas procuram sobre o seu ramo</small></li>
-        <li><strong>Instagram</strong><small>seguidores, posts e frequência</small></li>
-        <li><strong>Avaliações fora do Google</strong><small>Doctoralia, TripAdvisor, iFood e outros</small></li>
-        <li><strong>Público da cidade</strong><small>dados do IBGE</small></li>
-        <li><strong>Nota de 0 a 100 e plano de 90 dias</strong><small>o que fazer primeiro</small></li>
-      </ul>
-      <div class="scan__campos">
-        <label>Ramo <input id="scan-ramo" type="text" placeholder="ex.: ortopedia, pousada"></label>
-        <label>Cidade <input id="scan-cidade" type="text" autocomplete="address-level2" placeholder="ex.: Goiânia"></label>
+      <!-- análise completa sem a lista do que ela faz (pedido do dono, 2026-11-19: não dar ideia para a concorrência).
+           As linhas borradas são só desenho, sem texto. "15 critérios" = os critérios da nota (skill diagnostico-presenca, nota.py). -->
+      <div class="scan__trava">
+        <div class="scan__fantasma" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="scan__cadeado">
+          <span class="tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <h3>Mais 15 critérios na análise completa</h3>
+          <p>MECT compara você com os concorrentes da sua cidade e entrega a nota de 0 a 100 com o plano de 90 dias.</p>
+          <button class="bt bt--azul" type="button" data-desbloquear>Desbloquear <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg></button>
+        </div>
       </div>
-      <a class="bt bt--azul" id="scan-whats" href="https://wa.me/5562994050744" target="_blank" rel="noopener">Quero a análise completa <span aria-hidden="true">→</span></a>
     </div>
   </div>
+
+  <!-- o que a análise completa precisa para começar (nome = como procurar no Maps; bairro = pontos da busca) -->
+  <dialog class="scan__janela" id="scan-janela" aria-labelledby="scan-janela-titulo" closedby="any">
+    <form id="scan-pedido">
+      <h2 id="scan-janela-titulo">Desbloquear a análise completa</h2>
+      <p>Conte sobre o seu negócio. A conversa continua no WhatsApp, já com o resultado do scan.</p>
+      <div class="scan__campos">
+        <label>Nome como aparece no Google <input data-rotulo="Nome" type="text" autocomplete="organization" placeholder="ex.: Dr. João Silva" required></label>
+        <label>Especialidade ou ramo <input data-rotulo="Ramo" type="text" placeholder="ex.: ortopedia, pousada" required></label>
+        <label>Cidade e bairro <input data-rotulo="Cidade" type="text" placeholder="ex.: Goiânia, Setor Bueno" required></label>
+        <label>Instagram (se tiver) <input data-rotulo="Instagram" type="text" autocapitalize="none" spellcheck="false" placeholder="@seuperfil"></label>
+        <label class="scan__largo">Concorrentes que você acompanha (opcional) <input data-rotulo="Concorrentes" type="text" placeholder="ex.: Clínica X, Dr. Y"></label>
+      </div>
+      <button class="bt bt--azul" type="submit">Enviar pelo WhatsApp <span aria-hidden="true">→</span></button>
+      <button class="scan__fechar" type="button" aria-label="Fechar" data-fechar>×</button>
+    </form>
+  </dialog>
   <p class="nota">A consulta usa dados públicos do Registro.br e do Google PageSpeed. MECT não guarda o que você digita.</p>
 </section>
 
@@ -73,6 +91,8 @@ let alvo = '';
 function passo(id, estado, txt = '') {
   const li = res.querySelector(`[data-p="${id}"]`);
   li.dataset.estado = estado; li.querySelector('small').textContent = txt;
+  const lis = [...res.querySelectorAll('[data-p]')], feitos = lis.filter((l) => l.dataset.estado !== 'rodando').length;
+  $('#scan-barra').style.width = `${(feitos / lis.length) * 100}%`; $('#scan-conta').textContent = `${feitos} de ${lis.length}`;
 }
 
 async function dominio(d) {
@@ -135,20 +155,25 @@ $('#scan-form').addEventListener('submit', async (e) => {
   const bt = e.target.querySelector('button'); bt.disabled = true;
   alvo = host; $('#scan-alvo').textContent = host; $('#scan-titulo').textContent = 'Analisando';
   $('#scan-print').hidden = true; $('#scan-print').removeAttribute('src');
-  res.hidden = false; res.classList.add('rodando');
+  res.hidden = false; res.classList.remove('feito'); res.classList.add('rodando');
   res.querySelectorAll('[data-p]').forEach((li) => passo(li.dataset.p, 'rodando', 'conferindo…'));
   res.scrollIntoView({ block: 'start' });
   await Promise.all([dominio(host.replace(/^www\./, '')), pagina(host)]);
-  res.classList.remove('rodando'); $('#scan-titulo').textContent = 'Resultado de'; bt.disabled = false;
+  res.classList.replace('rodando', 'feito'); $('#scan-titulo').textContent = 'Resultado de'; bt.disabled = false;
 });
 
-// a mensagem do WhatsApp leva o resultado, para a análise completa começar dele
-$('#scan-whats').addEventListener('click', (e) => {
-  const linhas = [...res.querySelectorAll('[data-estado="ok"], [data-estado="aviso"]')].filter((li) => li.dataset.p !== 'print')
-    .map((li) => `- ${li.querySelector('strong').textContent}: ${li.querySelector('small').textContent}`);
-  const ramo = $('#scan-ramo').value.trim(), cidade = $('#scan-cidade').value.trim();
-  const msg = ['Olá! Fiz o diagnóstico do meu site no site MECT e quero a análise completa.', `Site: ${alvo}`,
-    ramo ? `Ramo: ${ramo}` : null, cidade ? `Cidade: ${cidade}` : null, linhas.length ? '' : null, ...linhas].filter((x) => x !== null).join('\n');
-  e.currentTarget.href = 'https://wa.me/5562994050744?text=' + encodeURIComponent(msg);
+// "Desbloquear" (e "Não tem site?") abre a janela; o envio leva as respostas e o resultado do scan para o WhatsApp
+const janela = $('#scan-janela');
+document.querySelectorAll('[data-desbloquear]').forEach((b) => b.addEventListener('click', () => janela.showModal()));
+janela.querySelector('[data-fechar]').addEventListener('click', () => janela.close());
+$('#scan-pedido').addEventListener('submit', (e) => {
+  e.preventDefault(); // o navegador já conferiu os campos obrigatórios
+  const campos = [...e.target.querySelectorAll('input')].filter((i) => i.value.trim()).map((i) => `${i.dataset.rotulo}: ${i.value.trim()}`);
+  const linhas = alvo ? [...res.querySelectorAll('[data-estado="ok"], [data-estado="aviso"]')].filter((li) => li.dataset.p !== 'print')
+    .map((li) => `- ${li.querySelector('strong').textContent}: ${li.querySelector('small').textContent}`) : [];
+  const msg = [alvo ? 'Olá! Fiz o diagnóstico do meu site no site MECT e quero a análise completa.' : 'Olá! Vim pelo site MECT e quero a análise completa. Ainda não tenho site.',
+    ...(alvo ? [`Site: ${alvo}`] : []), ...campos, ...(linhas.length ? ['', ...linhas] : [])].join('\n');
+  window.open('https://wa.me/5562994050744?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  janela.close();
 });
 </script>
