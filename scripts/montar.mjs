@@ -9,7 +9,7 @@ import { homedir, tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 
 // o menu mora só aqui
-const MENU = [['/', 'Início'], ['/servicos/', 'Serviços'], ['/produtos/', 'Produtos'], ['/sobre/', 'Sobre'], ['/contato/', 'Contato']];
+const MENU = [['/', 'Início'], ['/servicos/', 'Serviços'], ['/produtos/', 'Produtos'], ['/sobre/', 'Sobre'], ['/contato/', 'Contato'], ['https://painel.mect.com.br', 'Área do cliente']];
 const versao = (f) => createHash('sha1').update(readFileSync(f)).digest('hex').slice(0, 8); // ?v= derruba o cache velho
 const layout = readFileSync('partes/layout.html', 'utf8');
 const urls = [];

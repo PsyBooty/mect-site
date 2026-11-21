@@ -146,6 +146,10 @@ html.a11y-texto .rodape__col a { overflow-wrap: anywhere; }
   .cta .bt { justify-self: start; }
   .rodape__in { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rodape__marca { grid-column: 1 / -1; }
+  /* menu com 6 itens (Área do cliente): aperta o espaço até o menu de celular entrar (53.75em) */
+  .topo__in { gap: 18px; }
+  .topo__in > .logo { padding-right: 18px; }
+  .nav { gap: 18px; }
 }
 @media (max-width: 53.75em) {
   .topo__in { gap: 12px; justify-content: space-between; }
